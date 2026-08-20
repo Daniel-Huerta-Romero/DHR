@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kroma QA Studio - Workstation de Calidad y Registro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand-amber: #FFAA00;
+      --brand-amber-hover: #ff9400;
+      --brand-amber-glow: rgba(255, 170, 0, 0.28);
+      --brand-amber-subtle: rgba(255, 170, 0, 0.08);
+      --bg-canvas: #f8f8f8;
+      --card-bg: #FFFFFF;
+      --charcoal-deep: #343434;
+      --charcoal-light: #525252;
+      --charcoal-muted: #757575;
+      --border: #e6e6e6;
+      --border-focus: #FFAA00;
+      --code-bg: #fafafa;
+      --success: #2e7d32;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+      --shadow-subtle: 0 4px 20px rgba(52, 52, 52, 0.06);
+      --shadow-hover: 0 8px 30px rgba(52, 52, 52, 0.1);
+      --shadow-glow: 0 0 0 4px rgba(255, 170, 0, 0.22);
+      --transition: all 0.24s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-canvas);
+      color: var(--charcoal-deep);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Global Header */
+    .global-header {
+      width: 100%;
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(52, 52, 52, 0.04);
+      backdrop-filter: blur(8px);
+    }
+
+    .nav-container {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0 10px 0;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo-badge {
+      width: 32px;
+      height: 32px;
+      background: var(--charcoal-deep);
+      color: var(--brand-amber);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      box-shadow: 0 2px 8px rgba(255, 170, 0, 0.35);
+      transition: var(--transition);
+    }
+
+    .brand-logo-badge:hover {
+      transform: rotate(5deg) scale(1.05);
+    }
+
+    .brand-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--charcoal-deep);
+      letter-spacing: -0.5px;
+    }
+
+    .brand-name span {
+      color: var(--brand-amber);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-icon-custom {
+      background: transparent;
+      border: 1.5px solid var(--border);
+      color: var(--charcoal-deep);
+      border-radius: var(--radius-full);
+      padding: 7px 16px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+
+    .btn-icon-custom:hover {
+      border-color: var(--brand-amber);
+      background: var(--brand-amber-subtle);
+      transform: translateY(-1px);
+    }
+
+    /* Barra de Sesión Maestra */
+    .session-build-bar {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 16px;
+      background: var(--brand-amber-subtle);
+      border: 1.5px dashed var(--brand-amber);
+      border-radius: var(--radius-md);
+      margin-bottom: 12px;
+      transition: var(--transition);
+    }
+
+    .session-build-bar:focus-within {
+      background: #fff;
+      box-shadow: var(--shadow-glow);
+    }
+
+    .session-build-bar label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--charcoal-deep);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .session-build-input {
+      flex: 1;
+      border: none;
+      border-bottom: 1.5px solid rgba(52, 52, 52, 0.2);
+      background: transparent;
+      padding: 4px 0;
+      font-size: 0.95rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--charcoal-deep);
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .session-build-input:focus {
+      border-bottom-color: var(--brand-amber);
+    }
+
+    /* Tabs de Navegación */
+    .tabs-nav {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      border-top: 1px solid var(--border);
+      padding-top: 4px;
+    }
+
+    .tab-item {
+      padding: 12px 18px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--charcoal-muted);
+      text-decoration: none;
+      white-space: nowrap;
+      border-bottom: 3px solid transparent;
+      border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .tab-item:hover {
+      color: var(--charcoal-deep);
+      background-color: rgba(52, 52, 52, 0.03);
+    }
+
+    .tab-item.active {
+      color: var(--charcoal-deep);
+      border-bottom: 3px solid var(--brand-amber);
+    }
+
+    /* Contenedor Principal */
+    .main-wrapper {
+      width: 100%;
+      max-width: 1160px;
+      padding: 28px 20px 56px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .split-layout {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 920px) {
+      .split-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Tarjetas */
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      padding: 26px 28px;
+      box-shadow: var(--shadow-subtle);
+      transition: var(--transition);
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-hover);
+    }
+
+    .header-card {
+      border-top: 6px solid var(--brand-amber);
+      margin-bottom: 18px;
+    }
+
+    .header-card h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--charcoal-deep);
+      margin-bottom: 6px;
+      letter-spacing: -0.5px;
+    }
+
+    .header-card p {
+      color: var(--charcoal-muted);
+      font-size: 0.92rem;
+    }
+
+    /* Secciones Agrupadas (Chunking) */
+    .form-group-section {
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      background: #ffffff;
+      margin-bottom: 16px;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .form-group-section:focus-within {
+      border-color: var(--brand-amber);
+      box-shadow: 0 4px 16px rgba(255, 170, 0, 0.12);
+      transform: translateY(-2px);
+    }
+
+    .group-legend {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--charcoal-deep);
+      margin-bottom: 16px;
+    }
+
+    .step-badge {
+      background: var(--brand-amber);
+      color: var(--charcoal-deep);
+      border-radius: var(--radius-full);
+      width: 22px;
+      height: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 800;
+    }
+
+    .field-row {
+      margin-bottom: 16px;
+    }
+
+    .field-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .label-container {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .label-container label {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--charcoal-deep);
+    }
+
+    .required-dot {
+      color: #e53935;
+      font-weight: bold;
+    }
+
+    .badge-help {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border-radius: var(--radius-full);
+      background: #f0f0f0;
+      color: var(--charcoal-muted);
+      font-size: 0.7rem;
+      font-weight: 700;
+      cursor: help;
+      position: relative;
+      transition: var(--transition);
+    }
+
+    .badge-help:hover {
+      background: var(--brand-amber);
+      color: var(--charcoal-deep);
+    }
+
+    .tooltip {
+      visibility: hidden;
+      opacity: 0;
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--charcoal-deep);
+      color: #fff;
+      font-size: 0.75rem;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      width: 240px;
+      text-align: center;
+      line-height: 1.35;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+      transition: var(--transition);
+      z-index: 20;
+      pointer-events: none;
+    }
+
+    .tooltip::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: var(--charcoal-deep) transparent transparent transparent;
+    }
+
+    .badge-help:hover .tooltip {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    /* Inputs y Efecto Glow */
+    .g-input {
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      font-size: 0.92rem;
+      background: #fafafa;
+      color: var(--charcoal-deep);
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .g-input:focus {
+      background: #ffffff;
+      border-color: var(--border-focus);
+      box-shadow: var(--shadow-glow);
+    }
+
+    /* Sinónimos */
+    .synonym-drawer {
+      margin-top: 10px;
+      padding: 12px 14px;
+      background: var(--brand-amber-subtle);
+      border: 1px dashed var(--brand-amber);
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      display: none;
+      animation: fadeIn 0.25s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .synonym-drawer-title {
+      font-weight: 700;
+      color: var(--charcoal-deep);
+      margin-bottom: 8px;
+    }
+
+    .chips-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .syn-chip {
+      background: #fff;
+      color: var(--charcoal-deep);
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1.5px solid rgba(255, 170, 0, 0.4);
+      transition: var(--transition);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+    }
+
+    .syn-chip:hover {
+      border-color: var(--brand-amber);
+      background: var(--brand-amber);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(255, 170, 0, 0.3);
+    }
+
+    .grid-3-fields {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 600px) {
+      .grid-3-fields {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .g-select {
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      font-size: 0.88rem;
+      background: #fafafa;
+      color: var(--charcoal-deep);
+      outline: none;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .g-select:focus {
+      background: #fff;
+      border-color: var(--brand-amber);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .readonly-inherited {
+      background: #f5f5f5;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem;
+      color: var(--charcoal-deep);
+      font-weight: 600;
+    }
+
+    .steps-visual-box {
+      background: #f8f8f8;
+      border: 1px dashed var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      margin-bottom: 8px;
+      font-size: 0.82rem;
+      color: var(--charcoal-muted);
+      line-height: 1.5;
+    }
+
+    /* Live Preview Panel */
+    .live-preview-card {
+      border-top: 6px solid var(--brand-amber);
+      position: sticky;
+      top: 140px;
+    }
+
+    .live-preview-card h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--charcoal-deep);
+    }
+
+    .status-pill {
+      font-size: 0.72rem;
+      background: var(--brand-amber-subtle);
+      color: #b26a00;
+      border: 1px solid rgba(255, 170, 0, 0.4);
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .live-stream-box {
+      background: #fafafa;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--brand-amber);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      font-size: 0.88rem;
+      line-height: 1.65;
+      min-height: 240px;
+      max-height: 480px;
+      overflow-y: auto;
+      color: var(--charcoal-deep);
+    }
+
+    .live-stream-box ul {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+
+    .live-stream-box li {
+      margin-bottom: 8px;
+    }
+
+    .live-stream-box strong {
+      color: var(--charcoal-deep);
+      font-weight: 700;
+    }
+
+    /* Botones */
+    .btn-submit {
+      background: var(--brand-amber);
+      color: var(--charcoal-deep);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 12px 24px;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      box-shadow: 0 3px 12px rgba(255, 170, 0, 0.35);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+    }
+
+    .btn-submit:hover {
+      background: var(--brand-amber-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(255, 170, 0, 0.45);
+    }
+
+    .btn-clear {
+      background: transparent;
+      color: var(--charcoal-muted);
+      border: none;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      transition: var(--transition);
+    }
+
+    .btn-clear:hover {
+      color: var(--charcoal-deep);
+      background: rgba(52, 52, 52, 0.05);
+    }
+
+    .actions-bar {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-action {
+      background: #ffffff;
+      border: 1.5px solid var(--border);
+      color: var(--charcoal-deep);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-action:hover {
+      border-color: var(--charcoal-deep);
+      transform: translateY(-1px);
+    }
+
+    .btn-action-primary {
+      background: var(--charcoal-deep);
+      color: #ffffff;
+      border-color: var(--charcoal-deep);
+    }
+
+    .btn-action-primary:hover {
+      background: #1f1f1f;
+      border-color: #1f1f1f;
+    }
+
+    /* Modal & Toast */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(52, 52, 52, 0.65);
+      z-index: 200;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      max-width: 520px;
+      width: 100%;
+      padding: 28px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--charcoal-deep);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: var(--radius-full);
+      font-size: 0.88rem;
+      font-weight: 500;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+      z-index: 300;
+      opacity: 0;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    .view-content {
+      display: none;
+      width: 100%;
+    }
+
+    .view-content.active-view {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Global -->
+  <header class="global-header">
+    <div class="nav-container">
+      <div class="top-bar">
+        <div class="brand-group">
+          <div class="brand-logo-badge">K</div>
+          <div class="brand-name">Kroma <span>QA Studio</span></div>
+        </div>
+        <div class="header-actions">
+          <button class="btn-icon-custom" onclick="toggleAbstract(true)">📖 Abstract & Guía</button>
+        </div>
+      </div>
+
+      <!-- Barra de Build Global -->
+      <div class="session-build-bar">
+        <label for="globalSessionBuild">📌 Build Maestra de Sesión:</label>
+        <input type="text" id="globalSessionBuild" class="session-build-input" placeholder="Ej. v2.4.102-build.99482-hotfix_RC3" oninput="updateGlobalBuild(this.value)">
+      </div>
+
+      <nav class="tabs-nav" id="tabsNavContainer"></nav>
+    </div>
+  </header>
+
+  <!-- Viewport Principal -->
+  <main class="main-wrapper" id="mainAppContainer"></main>
+
+  <!-- Modal Abstract -->
+  <div class="modal-overlay" id="abstractModal" onclick="if(event.target===this) toggleAbstract(false)">
+    <div class="modal-card">
+      <h3 style="font-family:'Space Grotesk'; font-size:1.3rem; color:var(--charcoal-deep); margin-bottom:10px;">
+        Kroma QA Studio - Identidad & UX Operativa
+      </h3>
+      <p style="font-size:0.92rem; line-height:1.6; color:var(--charcoal-light); margin-bottom:20px;">
+        Diseñado bajo la paleta de alto contraste <strong>#FFFFFF</strong>, <strong>#FFAA00</strong> (Ámbar Activo) y <strong>#343434</strong> (Carbón Profundo). Optimizado con micro-interacciones suaves, halo de atención <em>Glow Focus</em> y persistencia local sin servidor.
+      </p>
+      <div style="text-align: right;">
+        <button class="btn-submit" onclick="toggleAbstract(false)">Entendido</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toastBox">Acción realizada</div>
+
+  <script>
+    const QA_SYNONYMS_DB = {
+      "error": ["fallo", "anomalía", "defecto", "bug", "excepción", "falla", "glitch"],
+      "fallo": ["error", "defecto", "bloqueo", "anomalía", "cierre forzado", "bug"],
+      "bloqueo": ["congelamiento", "freeze", "hang", "cierre", "cuelgue", "pantallazo"],
+      "cerrar": ["terminar", "abortar", "crash", "cierre abrupto", "detener"],
+      "caida": ["crash", "cierre forzado", "desconexión", "interrupción"],
+      "caída": ["crash", "cierre forzado", "desconexión", "interrupción"],
+      "pantalla": ["interfaz", "display", "vista", "overlay", "UI", "HUD"],
+      "lento": ["lag", "retraso", "baja tasa de fps", "latencia", "stuttering"],
+      "audio": ["sonido", "efectos de audio", "SFX", "pista", "desincronización de audio"],
+      "boton": ["control", "pulsador", "CTA", "disparador", "switch"],
+      "botón": ["control", "pulsador", "CTA", "disparador", "switch"],
+      "guardar": ["salvar", "persistir", "almacenar", "sync"],
+      "login": ["inicio de sesión", "autenticación", "acceso", "sign-in"],
+      "crash": ["freeze", "force close", "unexpected termination", "hang", "unhandled exception"],
+      "freeze": ["hang", "lockup", "unresponsive state", "crash", "stutter"],
+      "bug": ["defect", "glitch", "issue", "anomaly", "failure"],
+      "glitch": ["rendering artifact", "visual bug", "visual flicker", "jitter"],
+      "lag": ["latency", "stuttering", "frame drop", "input delay"],
+      "failure": ["defect", "error", "breakage", "crash"]
+    };
+
+    const ALLOWED_BUILDS = [
+      'v2.4.102-build.99482-hotfix_RC3 (Actual Staging)',
+      'v2.4.101-build.98320-release (Producción)',
+      'v2.4.100-build.97110-main (Base)',
+      'v2.5.000-alpha.1042-nightly (Experimental)'
+    ];
+
+    const APP_MODULES = [
+      {
+        id: 'ticket1',
+        label: 'Ticket 1',
+        title: 'Ticket 1: Reporte de Incidencia',
+        desc: 'Completa los campos. Las micro-animaciones y el panel de previsualización guían el llenado.',
+        groups: [
+          {
+            title: '1. Contexto & Origen del Fallo',
+            fields: [
+              { id: 'build_inherited', name: 'build activa', type: 'inherited_build', tip: 'Heredada automáticamente de la cabecera superior.' },
+              { id: 'coment1', name: 'coment 1', label: 'referencia de la task', type: 'comment_lorem', placeholder: 'Ej. TASK-1024 / Checkout', req: true, tip: 'Identificador de la tarea. Incluye seguimiento automático.' },
+              { id: 'serie', name: 'numero de serie', label: 'identificador / serie del equipo', type: 'text', placeholder: 'Ej. SN-2026-X8...', req: true, tip: 'Código de serie del hardware o dispositivo de prueba.' }
+            ]
+          },
+          {
+            title: '2. Reproducción del Defecto',
+            fields: [
+              { id: 'resumen', name: 'resumen del problema', label: 'resumen breve del fallo', type: 'text_with_synonyms', placeholder: 'Ej. Bloqueo o error al confirmar compra con tarjeta...', req: true, tip: 'Al escribir palabras como error, bloqueo o crash, verás sinónimos técnicos debajo.' },
+              { id: 'pasos', name: 'pasos para reproducir', label: 'paso 3 (acción final detonante)', type: 'steps_default', placeholder: 'Ej. Presionar el botón "Pagar ahora"...', req: true, tip: 'Los pasos 1 y 2 son default. Escribe solo el paso 3.' }
+            ]
+          },
+          {
+            title: '3. Parámetros de Clasificación',
+            isGrid3: true,
+            fields: [
+              { id: 'combo1', name: 'combo 1', label: 'prioridad visual', type: 'select', options: ['verde', 'azul', 'rojo'], req: true, tip: 'Nivel visual del ticket.' },
+              { id: 'combo2', name: 'combo 2', label: 'alineación', type: 'select', options: ['izquierda', 'centro', 'derecha'], req: true, tip: 'Alineación de pantalla.' },
+              { id: 'combo3', name: 'combo 3', label: 'posición', type: 'select', options: ['arriba', 'centro', 'abajo'], req: true, tip: 'Posición espacial del elemento.' }
+            ]
+          }
+        ]
+      },
+      {
+        id: 'conteo_verify',
+        label: 'Conteo Verify',
+        title: 'Conteo Verify: Matriz de Validación',
+        desc: 'Pega 2 columnas contiguas desde Excel (hasta 500 filas). Analiza combinaciones de plataformas y estados.',
+        isMatrixModule: true
+      },
+      {
+        id: 'verify_open',
+        label: 'Verify Open',
+        title: 'Verify Open: Validación de Ticket Abierto',
+        desc: 'Valida la persistencia del bug seleccionando la versión oficial.',
+        groups: [
+          {
+            title: 'Verificación de Estado',
+            fields: [
+              { id: 'build_ver_select', name: 'version / build de prueba', label: 'build autorizada de prueba', type: 'select', options: ALLOWED_BUILDS, req: true, tip: 'Selecciona la build oficial de la lista blanca.' },
+              { id: 'resultado_observado', name: 'resultado observado', label: 'comportamiento observado', type: 'text', placeholder: 'El fallo sigue reproduciéndose al...', req: true, tip: 'Describe qué ocurre tras ejecutar los pasos.' },
+              { id: 'estado_verificacion', name: 'estado verify', label: 'estado asignado', type: 'select', options: ['VO (Verify Open)', 'Reabierto', 'Bloqueado'], req: true, tip: 'Estado final asignado.' }
+            ]
+          }
+        ]
+      },
+      {
+        id: 'verify_fix',
+        label: 'Verify Fix',
+        title: 'Verify Fix: Confirmación de Corrección',
+        desc: 'Registra los resultados de comprobación tras el despliegue del fix.',
+        groups: [
+          {
+            title: 'Confirmación de Parche',
+            fields: [
+              { id: 'build_fix_select', name: 'version / build con fix', label: 'build con fix aplicado', type: 'select', options: ALLOWED_BUILDS, req: true, tip: 'Build con el parche oficial de la lista.' },
+              { id: 'comportamiento_esperado', name: 'comportamiento verificado', label: 'comportamiento verificado', type: 'text', placeholder: 'El flujo completó con éxito...', req: true, tip: 'Confirma que el comportamiento anómalo ya no ocurre.' },
+              { id: 'estado_fix', name: 'estado verify', label: 'estado del fix', type: 'select', options: ['VF (Verify Fix)', 'Fix Aprobado', 'Fix Parcial'], req: true, tip: 'Estado final del fix.' }
+            ]
+          }
+        ]
+      },
+      {
+        id: 'nmi',
+        label: 'NMI',
+        title: 'NMI: Need More Information',
+        desc: 'Solicitud de información adicional o aclaración de especificaciones.',
+        groups: [
+          {
+            title: 'Requerimiento de Información',
+            fields: [
+              { id: 'build_nmi_select', name: 'version / build involucrada', label: 'build relacionada', type: 'select', options: ALLOWED_BUILDS, req: true, tip: 'Build relacionada de la lista blanca.' },
+              { id: 'motivo_nmi', name: 'informacion requerida', label: 'detalle de datos faltantes', type: 'text', placeholder: 'Faltan logs de servidor / credenciales...', req: true, tip: 'Especifica qué datos hacen falta.' },
+              { id: 'bloqueante', name: 'impacto en pruebas', label: 'severidad de bloqueo', type: 'select', options: ['Bloqueante', 'Parcial', 'Informativo'], req: true, tip: 'Nivel de severidad para el testing.' }
+            ]
+          }
+        ]
+      }
+    ];
+
+    let activeTabId = localStorage.getItem('qa_active_tab') || 'ticket1';
+    let globalSessionBuild = localStorage.getItem('qa_global_build') || 'v2.4.102-build.99482-hotfix_RC3';
+    let lastCompiledMarkdown = {};
+
+    function initApp() {
+      const gInput = document.getElementById('globalSessionBuild');
+      if (gInput) gInput.value = globalSessionBuild;
+
+      const tabsNav = document.getElementById('tabsNavContainer');
+      tabsNav.innerHTML = '';
+      APP_MODULES.forEach(mod => {
+        const tabLink = document.createElement('a');
+        tabLink.className = `tab-item ${mod.id === activeTabId ? 'active' : ''}`;
+        tabLink.textContent = mod.label;
+        tabLink.href = 'javascript:void(0)';
+        tabLink.onclick = () => switchTab(mod.id);
+        tabsNav.appendChild(tabLink);
+      });
+
+      const appContainer = document.getElementById('mainAppContainer');
+      appContainer.innerHTML = '';
+
+      APP_MODULES.forEach(mod => {
+        const viewDiv = document.createElement('div');
+        viewDiv.id = `view-${mod.id}`;
+        viewDiv.className = `view-content ${mod.id === activeTabId ? 'active-view' : ''}`;
+
+        if (mod.isMatrixModule) {
+          viewDiv.innerHTML = buildMatrixModuleHTML(mod);
+        } else {
+          viewDiv.innerHTML = buildSplitFormHTML(mod);
+        }
+
+        appContainer.appendChild(viewDiv);
+      });
+
+      restoreLocalStorage();
+      setupLiveSync();
+    }
+
+    function buildSplitFormHTML(mod) {
+      let groupsHtml = '';
+      mod.groups.forEach((g, gIdx) => {
+        let fieldsInGroup = '';
+        const isGrid = g.isGrid3 ? 'grid-3-fields' : '';
+
+        g.fields.forEach(f => {
+          const labelText = f.label || f.name;
+          fieldsInGroup += `
+            <div class="field-row" data-field-id="${f.id}" data-field-name="${f.name}" data-type="${f.type}">
+              <div class="label-container">
+                <label>${labelText}</label>
+                ${f.req ? '<span class="required-dot">*</span>' : ''}
+                <div class="badge-help">?
+                  <div class="tooltip">${f.tip}</div>
+                </div>
+              </div>
+          `;
+
+          if (f.type === 'inherited_build') {
+            fieldsInGroup += `
+              <div class="readonly-inherited inherited-build-display">${globalSessionBuild}</div>
+              <input type="hidden" class="form-input inherited-build-value" id="${mod.id}_${f.id}" value="${globalSessionBuild}">
+            `;
+          } else if (f.type === 'text_with_synonyms') {
+            fieldsInGroup += `
+              <input type="text" class="g-input form-input" id="${mod.id}_${f.id}" placeholder="${f.placeholder}" spellcheck="true" lang="es" ${f.req ? 'required' : ''} oninput="handleSynonymsCheck('${mod.id}_${f.id}', this.value)">
+              <div class="synonym-drawer" id="syn_drawer_${mod.id}_${f.id}">
+                <div class="synonym-drawer-title">💡 Sinónimos técnicos disponibles:</div>
+                <div class="chips-cloud" id="chips_container_${mod.id}_${f.id}"></div>
+              </div>
+            `;
+          } else if (f.type === 'text') {
+            fieldsInGroup += `<input type="text" class="g-input form-input" id="${mod.id}_${f.id}" placeholder="${f.placeholder}" spellcheck="true" ${f.req ? 'required' : ''}>`;
+          } else if (f.type === 'steps_default') {
+            fieldsInGroup += `
+              <div class="steps-visual-box">
+                <div><strong>1.</strong> loggeate</div>
+                <div><strong>2.</strong> da aceptar</div>
+                <div><strong>3.</strong> <em>(tu texto)</em></div>
+              </div>
+              <input type="text" class="g-input form-input" id="${mod.id}_${f.id}" placeholder="${f.placeholder}" spellcheck="true" ${f.req ? 'required' : ''}>
+            `;
+          } else if (f.type === 'select') {
+            let opts = f.options.map(o => `<option value="${o}">${o}</option>`).join('');
+            fieldsInGroup += `
+              <select class="g-select form-input" id="${mod.id}_${f.id}" ${f.req ? 'required' : ''}>
+                <option value="" disabled selected>Selecciona...</option>
+                ${opts}
+              </select>
+            `;
+          } else if (f.type === 'comment_lorem') {
+            fieldsInGroup += `<input type="text" class="g-input form-input" id="${mod.id}_${f.id}" placeholder="${f.placeholder}" spellcheck="true" ${f.req ? 'required' : ''}>`;
+          }
+
+          fieldsInGroup += `</div>`;
+        });
+
+        groupsHtml += `
+          <div class="form-group-section">
+            <div class="group-legend">
+              <span class="step-badge">${gIdx + 1}</span>
+              <span>${g.title}</span>
+            </div>
+            <div class="${isGrid}">
+              ${fieldsInGroup}
+            </div>
+          </div>
+        `;
+      });
+
+      return `
+        <div class="split-layout">
+          <div>
+            <div class="card header-card" style="margin-bottom:16px;">
+              <h1>${mod.title}</h1>
+              <p>${mod.desc}</p>
+            </div>
+
+            <form id="form_${mod.id}" onsubmit="finalizeForm(event, '${mod.id}')">
+              ${groupsHtml}
+
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px;">
+                <button type="submit" class="btn-submit">Generar Reporte (Ctrl + Enter)</button>
+                <button type="button" class="btn-clear" onclick="clearFormModule('${mod.id}')">Restablecer</button>
+              </div>
+            </form>
+          </div>
+
+          <div>
+            <div class="card live-preview-card">
+              <h2>
+                <span>Vista Previa en Vivo</span>
+                <span class="status-pill">Sincronizado</span>
+              </h2>
+              <div class="live-stream-box" id="live_stream_${mod.id}">
+                <p style="color:var(--charcoal-muted); font-size:0.85rem;">Escribe en el formulario para previsualizar el compilado...</p>
+              </div>
+
+              <div class="actions-bar">
+                <button class="btn-action" onclick="copyCompiledMarkdown('${mod.id}')">Copiar Markdown</button>
+                <button class="btn-action btn-action-primary" onclick="downloadCompiledMD('${mod.id}')">Exportar .md</button>
+                <button class="btn-action" onclick="downloadCompiledTXT('${mod.id}')">Exportar .txt</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function buildMatrixModuleHTML(mod) {
+      return `
+        <div class="card header-card">
+          <h1>${mod.title}</h1>
+          <p>${mod.desc}</p>
+        </div>
+
+        <div class="card" style="margin-top:16px;">
+          <div class="label-container" style="margin-bottom:10px;">
+            <label style="font-weight:700;">Pegar Columnas de Excel (Plataforma | Estado):</label>
+            <div class="badge-help">?
+              <div class="tooltip">Pega directamente 2 columnas de Excel. Reconoce NS, PS5, XB y VF, VO, OP.</div>
+            </div>
+          </div>
+          <textarea id="matrix_input" class="g-input" style="font-family:'JetBrains Mono', monospace; min-height:140px; border:1.5px solid var(--border); padding:12px; border-radius:var(--radius-sm);" placeholder="NS\\tVF\\nPS5\\tVO\\nXB\\tOP..."></textarea>
+          <div style="display:flex; justify-content:space-between; font-size:0.82rem; color:var(--charcoal-muted); margin-top:8px;">
+            <span id="matrix_counter_badge">0 filas detectadas</span>
+            <span>Atajo: Ctrl + Enter</span>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px;">
+            <button type="button" class="btn-submit" onclick="processMatrix()">Analizar y Cruzar Datos</button>
+            <button type="button" class="btn-clear" onclick="clearMatrix()">Limpiar Datos</button>
+          </div>
+        </div>
+
+        <div class="card" id="matrix_output_card" style="display:none; margin-top:16px; border-top:6px solid var(--brand-amber);">
+          <h2 style="font-family:'Space Grotesk'; font-size:1.2rem; font-weight:700; margin-bottom:12px;">Matriz Calculada</h2>
+          <div id="matrix_table_render"></div>
+
+          <h3 style="font-size: 0.9rem; margin: 16px 0 8px 0; font-family: 'Space Grotesk'; font-weight:700; color:var(--charcoal-deep);">Compilado Formateado:</h3>
+          <div class="live-stream-box" id="matrix_markdown_render" style="min-height:auto;"></div>
+
+          <div class="actions-bar">
+            <button class="btn-action" onclick="copyCompiledMarkdown('matrix')">Copiar Markdown</button>
+            <button class="btn-action btn-action-primary" onclick="downloadCompiledMD('matrix')">Exportar .md</button>
+            <button class="btn-action" onclick="downloadCompiledTXT('matrix')">Exportar .txt</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function handleSynonymsCheck(inputId, text) {
+      const drawer = document.getElementById(`syn_drawer_${inputId}`);
+      const chipsContainer = document.getElementById(`chips_container_${inputId}`);
+      if (!drawer || !chipsContainer) return;
+
+      if (!text.trim()) {
+        drawer.style.display = 'none';
+        chipsContainer.innerHTML = '';
+        return;
+      }
+
+      const words = text.toLowerCase().match(/\\b[a-záéíóúñ0-9_]+\\b/g) || [];
+      const detectedSynonyms = [];
+
+      words.forEach(w => {
+        if (QA_SYNONYMS_DB[w]) {
+          QA_SYNONYMS_DB[w].forEach(syn => {
+            detectedSynonyms.push({ original: w, synonym: syn });
+          });
+        }
+      });
+
+      if (detectedSynonyms.length > 0) {
+        drawer.style.display = 'block';
+        chipsContainer.innerHTML = '';
+        
+        const uniqueKeys = new Set();
+        detectedSynonyms.forEach(item => {
+          const key = `${item.original}->${item.synonym}`;
+          if (!uniqueKeys.has(key)) {
+            uniqueKeys.add(key);
+            const chip = document.createElement('span');
+            chip.className = 'syn-chip';
+            chip.textContent = `${item.original} ➜ ${item.synonym}`;
+            chip.onclick = () => replaceWordWithSynonym(inputId, item.original, item.synonym);
+            chipsContainer.appendChild(chip);
+          }
+        });
+      } else {
+        drawer.style.display = 'none';
+        chipsContainer.innerHTML = '';
+      }
+    }
+
+    function replaceWordWithSynonym(inputId, targetWord, newWord) {
+      const inputEl = document.getElementById(inputId);
+      if (!inputEl) return;
+
+      const regex = new RegExp(`\\\\b${targetWord}\\\\b`, 'i');
+      inputEl.value = inputEl.value.replace(regex, newWord);
+
+      handleSynonymsCheck(inputId, inputEl.value);
+      inputEl.dispatchEvent(new Event('input'));
+      showToast(`Reemplazado: "${targetWord}" por "${newWord}"`);
+    }
+
+    function updateLivePreview(modId) {
+      const container = document.getElementById(`view-${modId}`);
+      if (!container) return;
+
+      const cards = container.querySelectorAll('.field-row');
+      let htmlLines = '<ul>';
+      let mdLines = [];
+
+      cards.forEach(card => {
+        const name = card.getAttribute('data-field-name');
+        const type = card.getAttribute('data-type');
+        const input = card.querySelector('.form-input');
+        let val = input ? input.value.trim() : '';
+
+        if (type === 'inherited_build') {
+          val = globalSessionBuild || 'No definida';
+        } else if (type === 'steps_default') {
+          val = val ? `1 loggeate 2 da aceptar 3 ${val}` : '1 loggeate 2 da aceptar 3 ...';
+        } else if (type === 'comment_lorem') {
+          val = val ? `${val} - Lorem ipsum dolor sit amet, consectetur adipiscing elit.` : '...';
+        }
+
+        if (type === 'select') {
+          htmlLines += `<li><strong>${name}:</strong> <strong>${val || '(sin selección)'}</strong></li>`;
+          mdLines.push(`* **${name}:** **${val || ''}**`);
+        } else {
+          htmlLines += `<li><strong>${name}:</strong> ${val || '(vacío)'}</li>`;
+          mdLines.push(`* **${name}:** ${val || ''}`);
+        }
+      });
+
+      htmlLines += '</ul>';
+      lastCompiledMarkdown[modId] = mdLines.join('\\n');
+
+      const liveBox = document.getElementById(`live_stream_${modId}`);
+      if (liveBox) {
+        liveBox.innerHTML = htmlLines;
+      }
+    }
+
+    function setupLiveSync() {
+      APP_MODULES.forEach(mod => {
+        if (!mod.isMatrixModule) {
+          const form = document.getElementById(`form_${mod.id}`);
+          if (form) {
+            form.querySelectorAll('.form-input').forEach(inp => {
+              inp.addEventListener('input', () => {
+                updateLivePreview(mod.id);
+                saveLocalStorage();
+              });
+              inp.addEventListener('change', () => {
+                updateLivePreview(mod.id);
+                saveLocalStorage();
+              });
+            });
+            updateLivePreview(mod.id);
+          }
+        }
+      });
+
+      const matrixArea = document.getElementById('matrix_input');
+      if (matrixArea) {
+        matrixArea.addEventListener('input', () => {
+          const lines = matrixArea.value.trim().split(/\\r?\\n/).filter(l => l.trim().length > 0);
+          document.getElementById('matrix_counter_badge').textContent = `${lines.length} filas detectadas`;
+          saveLocalStorage();
+        });
+      }
+    }
+
+    function updateGlobalBuild(val) {
+      globalSessionBuild = val.trim();
+      localStorage.setItem('qa_global_build', globalSessionBuild);
+
+      document.querySelectorAll('.inherited-build-display').forEach(el => {
+        el.textContent = globalSessionBuild || '(Sin configurar)';
+      });
+
+      document.querySelectorAll('.inherited-build-value').forEach(el => {
+        el.value = globalSessionBuild;
+      });
+
+      APP_MODULES.forEach(mod => {
+        if (!mod.isMatrixModule) updateLivePreview(mod.id);
+      });
+    }
+
+    function finalizeForm(e, modId) {
+      if (e) e.preventDefault();
+      updateLivePreview(modId);
+      showToast('✓ Reporte generado y listo en el panel lateral');
+    }
+
+    function clearFormModule(modId) {
+      document.getElementById(`form_${modId}`).reset();
+      const synDrawer = document.querySelector(`#view-${modId} .synonym-drawer`);
+      if (synDrawer) synDrawer.style.display = 'none';
+      updateLivePreview(modId);
+      saveLocalStorage();
+      showToast('Formulario restablecido');
+    }
+
+    function processMatrix() {
+      const raw = document.getElementById('matrix_input').value.trim();
+      if (!raw) {
+        showToast('Pega datos de Excel para procesar');
+        return;
+      }
+
+      const rows = raw.split(/\\r?\\n/).slice(0, 500);
+      const matriz = {
+        NS: { VF: 0, VO: 0, OP: 0, total: 0 },
+        XB: { VF: 0, VO: 0, OP: 0, total: 0 },
+        PS: { VF: 0, VO: 0, OP: 0, total: 0 }
+      };
+      const colTotals = { VF: 0, VO: 0, OP: 0, grandTotal: 0 };
+      let validCount = 0;
+
+      rows.forEach(line => {
+        const tokens = line.trim().split(/[\\t,;\\s]+/).filter(Boolean);
+        if (tokens.length >= 2) {
+          let plat = tokens[0].toUpperCase();
+          let status = tokens[1].toUpperCase();
+
+          if (plat === 'PS5' || plat === 'PS4' || plat === 'PLAYSTATION') plat = 'PS';
+          if (plat === 'XBOX' || plat === 'XBS' || plat === 'XSX' || plat === 'XB1') plat = 'XB';
+          if (plat === 'SWITCH' || plat === 'NSW') plat = 'NS';
+
+          if (matriz[plat] && matriz[plat][status] !== undefined) {
+            matriz[plat][status]++;
+            matriz[plat].total++;
+            colTotals[status]++;
+            colTotals.grandTotal++;
+            validCount++;
+          }
+        }
+      });
+
+      const tableHtml = `
+        <table style="width:100%; border-collapse:collapse; text-align:center; font-size:0.85rem;">
+          <thead>
+            <tr style="background:#f0f0f0;">
+              <th style="padding:10px; border:1px solid var(--border); font-family:'Space Grotesk';">Plataforma</th>
+              <th style="padding:10px; border:1px solid var(--border); font-family:'Space Grotesk';">VF</th>
+              <th style="padding:10px; border:1px solid var(--border); font-family:'Space Grotesk';">VO</th>
+              <th style="padding:10px; border:1px solid var(--border); font-family:'Space Grotesk';">OP</th>
+              <th style="padding:10px; border:1px solid var(--border); font-family:'Space Grotesk'; font-weight:700;">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding:10px; border:1px solid var(--border); text-align:left; font-weight:600;">NS (Switch)</td>
+              <td style="padding:10px; border:1px solid var(--border);">${matriz.NS.VF}</td>
+              <td style="padding:10px; border:1px solid var(--border);">${matriz.NS.VO}</td>
+              <td style="padding:10px; border:1px solid var(--border);">${matriz.NS.OP}</td>
+              <td style="padding:10px; border:1px solid var(--border); font-weight:700;">${matriz.NS.total}</td>
+            </tr>
+            <tr>
+              <td style="padding:10px; border:1px solid var(--border); text-align:left; font-weight:600;">PS (PlayStation)</td>
+              <td style="padding:10px; border:1px solid var(--border);">${matriz.PS.VF}</td>
+              <td style="padding:10px; border:1px solid var(--border);">${matriz.PS.VO}</td>
+              <td style="padding:10px; border:1px solid var(--border);">${matriz.PS.OP}</td>
+              <td style="padding:10px; border:1px solid var(--border); font-weight:700;">${matriz.PS.total}</td>
+            </tr>
+            <tr>
+              <td style="padding:10px; border:1px solid var(--border); text-align:left; font-weight:600;">XB (Xbox)</td>
+              <td style="padding:10px; border:1px solid var(--border);">${matriz.XB.VF}</td>
+              <td style="padding:10px; border:1px solid var(--border);">${matriz.XB.VO}</td>
+              <td style="padding:10px; border:1px solid var(--border);">${matriz.XB.OP}</td>
+              <td style="padding:10px; border:1px solid var(--border); font-weight:700;">${matriz.XB.total}</td>
+            </tr>
+            <tr style="border-top:2px solid var(--brand-amber); font-weight:700; background:var(--brand-amber-subtle);">
+              <td style="padding:10px; border:1px solid var(--border); text-align:left;">TOTAL</td>
+              <td style="padding:10px; border:1px solid var(--border);">${colTotals.VF}</td>
+              <td style="padding:10px; border:1px solid var(--border);">${colTotals.VO}</td>
+              <td style="padding:10px; border:1px solid var(--border);">${colTotals.OP}</td>
+              <td style="padding:10px; border:1px solid var(--border); color:#b26a00; font-size:1rem;">${colTotals.grandTotal}</td>
+            </tr>
+          </tbody>
+        </table>
+      `;
+
+      document.getElementById('matrix_table_render').innerHTML = tableHtml;
+
+      const mdArray = [
+        `* **conteo verify total registros:** ${colTotals.grandTotal}`,
+        `* **NS (Nintendo Switch):** VF: ${matriz.NS.VF} | VO: ${matriz.NS.VO} | OP: ${matriz.NS.OP} | **Total:** ${matriz.NS.total}`,
+        `* **PS (PlayStation):** VF: ${matriz.PS.VF} | VO: ${matriz.PS.VO} | OP: ${matriz.PS.OP} | **Total:** ${matriz.PS.total}`,
+        `* **XB (Xbox):** VF: ${matriz.XB.VF} | VO: ${matriz.XB.VO} | OP: ${matriz.XB.OP} | **Total:** ${matriz.XB.total}`,
+        `* **totales por estado:** VF: ${colTotals.VF} | VO: ${colTotals.VO} | OP: ${colTotals.OP}`
+      ];
+
+      lastCompiledMarkdown['matrix'] = mdArray.join('\\n');
+
+      let htmlOut = '<ul>';
+      mdArray.forEach(l => {
+        htmlOut += `<li>${l.replace(/\\*\\*(.*?)\\*\\*/g, '<strong>$1</strong>').replace(/^\\* /, '')}</li>`;
+      });
+      htmlOut += '</ul>';
+
+      document.getElementById('matrix_markdown_render').innerHTML = htmlOut;
+      document.getElementById('matrix_output_card').style.display = 'block';
+
+      showToast('✓ Matriz calculada y sincronizada');
+    }
+
+    function clearMatrix() {
+      document.getElementById('matrix_input').value = '';
+      document.getElementById('matrix_output_card').style.display = 'none';
+      document.getElementById('matrix_counter_badge').textContent = '0 filas detectadas';
+      saveLocalStorage();
+      showToast('Matriz restablecida');
+    }
+
+    function copyCompiledMarkdown(key) {
+      const text = lastCompiledMarkdown[key];
+      if (!text) return;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('✓ Markdown copiado al portapapeles');
+      });
+    }
+
+    function downloadCompiledMD(key) {
+      const text = lastCompiledMarkdown[key];
+      if (!text) return;
+      const blob = new Blob([text], { type: 'text/markdown;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `kroma_report_${key}_${Date.now()}.md`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('✓ Archivo .md exportado a tu carpeta');
+    }
+
+    function downloadCompiledTXT(key) {
+      const text = lastCompiledMarkdown[key];
+      if (!text) return;
+      const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `kroma_report_${key}_${Date.now()}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('✓ Archivo .txt exportado');
+    }
+
+    function switchTab(modId) {
+      activeTabId = modId;
+      localStorage.setItem('qa_active_tab', modId);
+
+      document.querySelectorAll('.tab-item').forEach((tab, index) => {
+        tab.classList.toggle('active', APP_MODULES[index].id === modId);
+      });
+
+      document.querySelectorAll('.view-content').forEach(view => {
+        view.classList.toggle('active-view', view.id === `view-${modId}`);
+      });
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function saveLocalStorage() {
+      const state = {};
+      document.querySelectorAll('.form-input').forEach(input => {
+        if (input.id) state[input.id] = input.value;
+      });
+      const matrixVal = document.getElementById('matrix_input');
+      if (matrixVal) state['matrix_input'] = matrixVal.value;
+      localStorage.setItem('qa_form_state', JSON.stringify(state));
+    }
+
+    function restoreLocalStorage() {
+      const raw = localStorage.getItem('qa_form_state');
+      if (!raw) return;
+      try {
+        const state = JSON.parse(raw);
+        for (const [id, val] of Object.entries(state)) {
+          const el = document.getElementById(id);
+          if (el) {
+            el.value = val;
+            if (el.id === 'ticket1_resumen') {
+              handleSynonymsCheck(el.id, el.value);
+            }
+          }
+        }
+      } catch(e) {}
+    }
+
+    let toastTimeout;
+    function showToast(msg) {
+      const toast = document.getElementById('toastBox');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => toast.classList.remove('show'), 2200);
+    }
+
+    function toggleAbstract(show) {
+      document.getElementById('abstractModal').style.display = show ? 'flex' : 'none';
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        if (activeTabId === 'conteo_verify') {
+          processMatrix();
+        } else {
+          finalizeForm(null, activeTabId);
+        }
+      }
+    });
+
+    window.onload = () => {
+      initApp();
+    };
+  </script>
+</body>
+</html>
