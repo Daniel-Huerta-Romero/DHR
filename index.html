@@ -6,242 +6,693 @@
   <title>Daniel Huerta — UX Research</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Hedvig+Letters+Serif&family=Rethink+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Hedvig+Letters+Serif:opsz@24..40&family=Rethink+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     :root {
-      --navy: #1E3D59;
-      --orange: #FA9819;
-      --babyblue: #C6EBF7;
-      --offblue: #E8EBEF;
-      --ink: #16232F;
-      --muted: #5A6672;
+      --navy: #0F1E2E;
+      --orange: #FF8C00;
+      --babyblue: #D4E8F5;
+      --offblue: #F0F4F8;
+      --ink: #1A2332;
+      --muted: #6B7A8A;
       --line: #D9E2E8;
-      --bg: #FCFCFB;
+      --bg: #FAFBFC;
       --card: #FFFFFF;
+      --accent: #FF8C00;
     }
 
     :root[data-theme="dark"] {
-      --bg: #12181D;
-      --card: #182027;
-      --ink: #EDEFF1;
-      --muted: #9BA6AF;
-      --line: #2B353D;
-      --offblue: #1B2830;
-      --babyblue: #20323C;
+      --bg: #0D1117;
+      --card: #161B22;
+      --ink: #E6EDF3;
+      --muted: #8B949E;
+      --line: #30363D;
+      --offblue: #0D1117;
+      --babyblue: #1C2128;
+      --navy: #E6EDF3;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 72px;
+    }
+
     body {
-      font-family: 'Rethink Sans', sans-serif;
+      font-family: 'Rethink Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: var(--bg);
       color: var(--ink);
-      line-height: 1.55;
+      line-height: 1.6;
+      letter-spacing: -0.3px;
       padding-top: env(safe-area-inset-top, 0px);
       padding-bottom: env(safe-area-inset-bottom, 0px);
+      transition: background 0.3s ease, color 0.3s ease;
     }
-    img { max-width: 100%; display: block; }
-    a { color: var(--navy); }
-    h1, h2, h3 { font-family: 'Hedvig Letters Serif', serif; font-weight: 400; color: var(--navy); }
-    p { color: var(--muted); }
-    .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
 
+    h1, h2, h3 {
+      font-family: 'Hedvig Letters Serif', serif;
+      font-weight: 400;
+      letter-spacing: -0.5px;
+      color: var(--navy);
+      line-height: 1.15;
+    }
+
+    h1 { font-size: clamp(2.2rem, 5vw, 3.2rem); }
+    h2 { font-size: clamp(1.8rem, 4vw, 2.4rem); }
+    h3 { font-size: 1.4rem; }
+
+    p {
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    strong, b {
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+    }
+
+    a:hover {
+      opacity: 0.8;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+      height: auto;
+    }
+
+    .wrap {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* HEADER */
     header {
-      position: sticky; top: 0; z-index: 10;
+      position: sticky;
+      top: 0;
+      z-index: 100;
       background: var(--bg);
       border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+      background-color: rgba(250, 251, 252, 0.95);
+    }
+
+    :root[data-theme="dark"] header {
+      background-color: rgba(13, 17, 23, 0.95);
     }
 
     .navbar {
-      max-width: 760px; margin: 0 auto; padding: 14px 24px;
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 14px; height: 52px;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
     }
 
     .brand {
       font-family: 'Hedvig Letters Serif', serif;
-      font-size: 1.05rem;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--ink);
       white-space: nowrap;
       flex-shrink: 0;
+      letter-spacing: -0.5px;
     }
 
     .navlinks {
-      display: flex; align-items: center; gap: 18px;
-      font-size: 0.88rem; overflow-x: auto; white-space: nowrap;
-      scrollbar-width: none;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      flex-grow: 1;
+      justify-content: center;
     }
-    .navlinks::-webkit-scrollbar { display: none; }
+
     .navlinks a {
-      text-decoration: none; color: var(--muted);
-      flex-shrink: 0;
+      color: var(--muted);
+      transition: color 0.2s ease;
     }
-    .navlinks a:hover { color: var(--orange); }
+
+    .navlinks a:hover {
+      color: var(--accent);
+      opacity: 1;
+    }
 
     .theme-btn {
-      background: none; border: 1px solid var(--line); border-radius: 20px;
-      padding: 6px 14px; font-size: 0.8rem; color: var(--muted);
-      cursor: pointer; line-height: 1.2; height: 32px;
+      background: none;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
       flex-shrink: 0;
-    }
-
-    section { padding: 64px 0; }
-    .hero { padding-top: 56px; padding-bottom: 16px; }
-    .hero-grid { display: grid; grid-template-columns: 1.3fr 0.9fr; gap: 40px; align-items: start; }
-
-    .avatar-row {
-      display: flex; align-items: center; gap: 14px; margin-bottom: 22px;
-    }
-    .avatar-row img {
-      width: 56px; height: 56px; border-radius: 50%; object-fit: cover;
-      border: 2px solid var(--card); box-shadow: 0 0 0 1px var(--line);
-    }
-    .avatar-row span {
-      font-size: 0.95rem; color: var(--muted);
-    }
-
-    .eyebrow { color: var(--orange); font-weight: 600; font-size: 0.85rem; margin-bottom: 14px; }
-    h1.headline { font-size: clamp(2rem, 4vw, 2.7rem); line-height: 1.2; }
-    .hero p.lede {
-      margin-top: 20px; font-size: 1.08rem; max-width: 52ch;
-    }
-    .hero-links {
-      margin-top: 26px; display: flex; gap: 18px; flex-wrap: wrap;
-      font-size: 0.92rem;
-    }
-    .hero-links a {
-      text-decoration: none; border-bottom: 1px solid var(--navy); padding-bottom: 2px;
-    }
-
-    .signal-panel {
-      border: 1px solid var(--line); border-top: 3px solid var(--orange);
-      background: var(--card); padding: 22px;
-    }
-    .signal-panel .num {
-      font-family: 'Hedvig Letters Serif', serif; font-size: 2.6rem; color: var(--navy);
       line-height: 1;
     }
-    .signal-panel .num-label { font-size: 0.85rem; margin-top: 6px; }
-    .signal-panel hr {
-      border: none; border-top: 1px solid var(--line); margin: 16px 0;
-    }
-    .signal-panel .mini {
-      display: flex; justify-content: space-between; gap: 16px;
-      font-size: 0.85rem; margin-bottom: 8px; color: var(--muted);
-    }
-    .signal-panel .mini b { color: var(--ink); }
 
-    .divider { border: none; border-top: 1px solid var(--line); }
-
-    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
-    .chip {
-      border: 1px solid var(--line); border-radius: 20px;
-      padding: 5px 12px; font-size: 0.82rem; color: var(--muted);
+    .theme-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
     }
 
-    .steps { margin-top: 28px; display: grid; }
-    .step {
-      display: grid; grid-template-columns: 52px 1fr; gap: 18px;
-      padding: 22px 0; border-top: 1px solid var(--line);
-    }
-    .step:last-child { border-bottom: 1px solid var(--line); }
-    .step-num {
-      font-family: 'Hedvig Letters Serif', serif; font-size: 1.3rem;
-      color: var(--orange);
-    }
-    .step h4 {
-      font-family: 'Rethink Sans', sans-serif; font-weight: 700; font-size: 1rem;
-      margin-bottom: 6px; color: var(--ink);
-    }
-    .step p { font-size: 0.95rem; max-width: 56ch; }
-
-    .project-card {
-      border-top: 3px solid var(--orange); background: var(--card);
-      padding: 26px 28px; margin-bottom: 20px;
-    }
-    .project-card .tag {
-      font-size: 0.78rem; color: var(--orange); font-weight: 600;
-      text-transform: uppercase; letter-spacing: 0.03em;
-    }
-    .project-card h3 { font-size: 1.4rem; margin: 8px 0; }
-    .project-card p { margin-top: 8px; }
-    .project-card a {
-      display: inline-block; margin-top: 14px; font-size: 0.9rem;
-      text-decoration: none; border-bottom: 1px solid var(--navy);
+    /* SECTIONS */
+    section {
+      padding: 80px 0;
     }
 
-    .case {
-      padding: 56px 0; border-top: 1px solid var(--line);
+    .hero {
+      padding-top: 60px;
+      padding-bottom: 20px;
     }
-    .case.alt { background: var(--offblue); }
-    .case-meta {
-      display: flex; gap: 24px; flex-wrap: wrap; margin: 18px 0 28px;
-      font-size: 0.85rem; color: var(--muted);
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 56px;
+      align-items: start;
     }
-    .case-meta b { color: var(--ink); }
-    .case h2 { font-size: 1.9rem; }
-    .case-sub { color: var(--muted); font-size: 1.05rem; margin-top: 6px; }
-    .block { margin-top: 30px; }
-    .block h4 {
-      font-family: 'Rethink Sans', sans-serif; font-weight: 700; font-size: 0.85rem;
-      text-transform: uppercase; letter-spacing: 0.03em; color: var(--navy);
-      margin-bottom: 10px;
+
+    .avatar-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
     }
-    .block ul { padding-left: 20px; }
-    .block li { margin-bottom: 6px; }
-    .stat-row { display: flex; gap: 28px; flex-wrap: wrap; margin-top: 14px; }
-    .stat {
-      background: var(--offblue); padding: 14px 18px; min-width: 150px;
-      flex: 1 1 180px;
+
+    .avatar-row img {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--card);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     }
-    .case.alt .stat { background: var(--card); }
-    .stat b {
-      display: block; font-size: 1.4rem; font-family: 'Hedvig Letters Serif', serif;
+
+    .avatar-row .meta {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .headline {
+      margin-bottom: 20px;
+    }
+
+    .lede {
+      font-size: 1.05rem;
+      max-width: 55ch;
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    .hero-links {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .hero-links a {
+      padding-bottom: 4px;
+      border-bottom: 2px solid var(--accent);
+      transition: all 0.2s ease;
+    }
+
+    .hero-links a:hover {
+      padding-bottom: 2px;
+    }
+
+    /* SIGNAL PANEL */
+    .signal-panel {
+      border: 1px solid var(--line);
+      border-top: 4px solid var(--accent);
+      border-radius: 8px;
+      background: var(--card);
+      padding: 32px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .signal-panel .num {
+      font-family: 'Hedvig Letters Serif', serif;
+      font-size: 3.2rem;
+      font-weight: 400;
       color: var(--navy);
+      line-height: 1;
+      margin-bottom: 8px;
     }
-    .stat span { font-size: 0.8rem; color: var(--muted); }
+
+    .signal-panel .num-label {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    .signal-panel hr {
+      border: none;
+      border-top: 1px solid var(--line);
+      margin: 24px 0;
+    }
+
+    .signal-panel .mini {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 0.85rem;
+      margin-bottom: 12px;
+      color: var(--muted);
+    }
+
+    .signal-panel .mini b {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    /* DIVIDER */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--line);
+      margin: 0;
+    }
+
+    /* CHIPS */
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .chip {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 8px 14px;
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .chip:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* STEPS */
+    .steps {
+      margin-top: 40px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 24px;
+      padding: 32px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .step:last-child {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .step-num {
+      font-family: 'Hedvig Letters Serif', serif;
+      font-size: 1.6rem;
+      font-weight: 400;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .step h4 {
+      font-family: 'Rethink Sans', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      color: var(--ink);
+    }
+
+    .step p {
+      font-size: 0.95rem;
+      max-width: 56ch;
+      color: var(--muted);
+    }
+
+    /* PROJECT CARDS */
+    .project-card {
+      border-top: 4px solid var(--accent);
+      background: var(--card);
+      padding: 32px;
+      margin-bottom: 24px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      transition: all 0.3s ease;
+    }
+
+    .project-card:hover {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .project-card .tag {
+      font-size: 0.75rem;
+      color: var(--accent);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+
+    .project-card h3 {
+      margin: 12px 0 16px;
+    }
+
+    .project-card p {
+      font-size: 0.95rem;
+      margin-bottom: 16px;
+    }
+
+    .project-card a {
+      display: inline-block;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding-bottom: 3px;
+      border-bottom: 2px solid var(--accent);
+      transition: all 0.2s ease;
+    }
+
+    .project-card a:hover {
+      padding-bottom: 1px;
+    }
+
+    /* CASE STUDIES */
+    .case {
+      padding: 80px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .case.alt {
+      background: var(--offblue);
+    }
+
+    .case-meta {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+      margin: 20px 0 40px;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .case-meta b {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .case h2 {
+      margin-top: 16px;
+    }
+
+    .case-sub {
+      color: var(--muted);
+      font-size: 1.1rem;
+      margin-top: 8px;
+      font-weight: 500;
+    }
+
+    .block {
+      margin-top: 48px;
+    }
+
+    .block h4 {
+      font-family: 'Rethink Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+
+    .block p {
+      margin-bottom: 16px;
+    }
+
+    .block ul {
+      padding-left: 24px;
+    }
+
+    .block li {
+      margin-bottom: 10px;
+      color: var(--muted);
+    }
+
+    .stat-row {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .stat {
+      background: var(--offblue);
+      padding: 20px 24px;
+      flex: 1 1 200px;
+      border-radius: 6px;
+      min-width: 160px;
+    }
+
+    .case.alt .stat {
+      background: var(--card);
+      border: 1px solid var(--line);
+    }
+
+    .stat b {
+      display: block;
+      font-size: 1.8rem;
+      font-family: 'Hedvig Letters Serif', serif;
+      font-weight: 400;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .stat span {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
     .heur-table {
-      width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 0.92rem;
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 24px;
+      font-size: 0.9rem;
     }
+
     .heur-table td {
-      padding: 10px 0; border-bottom: 1px solid var(--line); vertical-align: top;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
     }
+
     .heur-table td:first-child {
-      color: var(--navy); font-weight: 600; width: 38%; padding-right: 16px;
+      color: var(--navy);
+      font-weight: 600;
+      width: 35%;
+      padding-right: 24px;
+    }
+
+    .heur-table td:last-child {
+      color: var(--muted);
     }
 
     .case-link {
-      display: inline-block; margin-top: 24px; background: var(--navy); color: #fff;
-      padding: 10px 20px; text-decoration: none; font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 32px;
+      background: var(--navy);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
     }
-    .case-link:hover { background: var(--orange); }
+
+    .case-link:hover {
+      background: var(--accent);
+      transform: translateX(2px);
+    }
 
     .placeholder-art {
-      margin-top: 20px; border: 1px solid var(--line); background: linear-gradient(135deg, var(--offblue), var(--card));
-      min-height: 200px; display: grid; place-items: center; color: var(--muted);
-      font-size: 0.9rem; padding: 16px; text-align: center;
+      margin-top: 24px;
+      border: 1px dashed var(--line);
+      background: linear-gradient(135deg, var(--offblue), var(--card));
+      min-height: 220px;
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-style: italic;
+      padding: 24px;
+      text-align: center;
+      border-radius: 6px;
     }
-    .slide-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
-    .slide-grid .placeholder-art { min-height: 180px; }
+
+    .slide-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 24px;
+    }
+
+    .slide-grid .placeholder-art {
+      min-height: 180px;
+      margin-top: 0;
+    }
+
     .note {
-      font-size: 0.85rem; color: var(--muted); border-left: 2px solid var(--orange);
-      padding-left: 12px; margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--muted);
+      border-left: 3px solid var(--accent);
+      padding-left: 16px;
+      margin-top: 24px;
+      line-height: 1.6;
     }
 
+    /* FOOTER */
     footer {
-      padding: 56px 0 40px; border-top: 1px solid var(--line);
-      font-size: 0.9rem; color: var(--muted);
-    }
-    footer a { color: var(--navy); }
-
-    @media (max-width: 720px) {
-      .hero-grid { grid-template-columns: 1fr; }
+      padding: 64px 0 48px;
+      border-top: 1px solid var(--line);
+      font-size: 0.9rem;
+      color: var(--muted);
     }
 
-    @media (max-width: 600px) {
-      h1.headline { font-size: 1.85rem; }
-      .navlinks { gap: 12px; font-size: 0.8rem; }
-      .brand { font-size: 0.95rem; }
-      .slide-grid { grid-template-columns: 1fr; }
+    footer p {
+      margin-bottom: 12px;
+    }
+
+    footer a {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    footer a:hover {
+      opacity: 0.8;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .wrap {
+        padding: 0 24px;
+      }
+
+      .navbar {
+        padding: 14px 24px;
+        gap: 12px;
+      }
+
+      .navlinks {
+        gap: 16px;
+        font-size: 0.85rem;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .slide-grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      h2 {
+        font-size: 1.4rem;
+      }
+
+      section {
+        padding: 56px 0;
+      }
+
+      .case {
+        padding: 56px 0;
+      }
+
+      .stat-row {
+        gap: 16px;
+      }
+
+      .stat {
+        flex: 1 1 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        font-size: 0.95rem;
+      }
+
+      .wrap {
+        padding: 0 16px;
+      }
+
+      .navbar {
+        padding: 12px 16px;
+      }
+
+      .navlinks {
+        display: none;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      h2 {
+        font-size: 1.2rem;
+      }
+
+      section {
+        padding: 40px 0;
+      }
+
+      .signal-panel {
+        padding: 24px;
+      }
+
+      .signal-panel .num {
+        font-size: 2.4rem;
+      }
     }
   </style>
 </head>
@@ -265,8 +716,9 @@
         <div>
           <div class="avatar-row">
             <img src="DHR.jpg" alt="Daniel Huerta">
-            <div>
-              <div class="eyebrow">UX Research · Heuristic Evaluation</div>
+            <div class="meta">
+              <div class="eyebrow">UX Research</div>
+              <div style="font-size: 0.9rem; color: var(--muted); font-weight: 500;">Heuristic Evaluation</div>
             </div>
           </div>
 
@@ -279,7 +731,7 @@
           </div>
         </div>
 
-        <aside class="signal-panel" aria-label="Research signal">
+        <aside class="signal-panel" aria-label="Research highlights">
           <div class="num">55.6%</div>
           <div class="num-label">dropout rate explained by operational friction — the central finding of my usability thesis</div>
           <hr>
@@ -294,11 +746,11 @@
 
     <section id="about">
       <h2>About</h2>
-      <p style="margin-top:16px; max-width:60ch;">
+      <p style="margin-top:20px; max-width:60ch; font-size: 0.95rem;">
         I work at the intersection of research and design: adapting usability heuristics, running qualitative studies, and translating findings into concrete product decisions. My research on human-AI interaction and operational friction informs how I diagnose problems before designing solutions.
       </p>
       <div class="chips">
-        <span class="chip">Heuristic Evaluation (Nielsen)</span>
+        <span class="chip">Heuristic Evaluation</span>
         <span class="chip">Usability Testing</span>
         <span class="chip">Wireframing &amp; Prototyping</span>
         <span class="chip">Information Architecture</span>
@@ -308,24 +760,24 @@
       </div>
     </section>
 
-    <hr class="divider" style="margin-top:56px">
+    <hr class="divider" style="margin-top:64px">
 
     <section id="how-i-work">
       <h2>How I Work</h2>
-      <p style="margin-top:12px; max-width:56ch">The same four steps, whether the deliverable is an academic paper or a shipped feature.</p>
+      <p style="margin-top:16px; max-width:56ch; font-size: 0.95rem;">The same four steps, whether the deliverable is an academic paper or a shipped feature.</p>
       <div class="steps">
         <div class="step">
           <div class="step-num">01</div>
           <div>
             <h4>Frame the real question</h4>
-            <p>Before testing anything, I pin down what is actually being evaluated and why it matters — a vague “improve usability” becomes a testable question tied to a specific behavior or decision.</p>
+            <p>Before testing anything, I pin down what is actually being evaluated and why it matters — a vague "improve usability" becomes a testable question tied to a specific behavior or decision.</p>
           </div>
         </div>
         <div class="step">
           <div class="step-num">02</div>
           <div>
             <h4>Investigate with the right method</h4>
-            <p>I choose between qualitative studies, heuristic evaluation, or both depending on the question — recruiting participants, designing tasks, and adapting Nielsen’s heuristics to the specific context.</p>
+            <p>I choose between qualitative studies, heuristic evaluation, or both depending on the question — recruiting participants, designing tasks, and adapting Nielsen's heuristics to the specific context.</p>
           </div>
         </div>
         <div class="step">
@@ -345,23 +797,23 @@
       </div>
     </section>
 
-    <hr class="divider" style="margin-top:16px">
+    <hr class="divider" style="margin-top:64px">
 
     <section id="work">
       <h2>Work</h2>
-      <div style="margin-top:24px">
+      <div style="margin-top:32px">
         <div class="project-card">
-          <div class="tag">Academic research · N=9</div>
+          <div class="tag">Academic Research · N=9</div>
           <h3>x-Plica</h3>
           <p>Usability evaluation of a hybrid human-AI workflow for critically analyzing viral content. I identified two types of friction with opposite effects on the experience.</p>
-          <a href="#case-xplica">View case study →</a>
+          <a href="#case-xplica">Read case study →</a>
         </div>
 
         <div class="project-card">
-          <div class="tag">Internal product · Approved</div>
+          <div class="tag">Internal Product · Approved</div>
           <h3>Kroma QA Studio</h3>
-          <p>Redesign of the video game QA ticket-creation flow applying Nielsen’s heuristics, to cut operational errors and free up time for real testing.</p>
-          <a href="#case-kroma">View case study →</a>
+          <p>Redesign of the video game QA ticket-creation flow applying Nielsen's heuristics, to cut operational errors and free up time for real testing.</p>
+          <a href="#case-kroma">Read case study →</a>
         </div>
       </div>
     </section>
@@ -369,7 +821,7 @@
 
   <section class="case" id="case-xplica">
     <div class="wrap">
-      <div class="tag" style="color:var(--orange); font-weight:600; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.03em;">Case Study 01</div>
+      <div class="tag" style="color:var(--accent); font-weight:700; font-size:0.75rem; text-transform:uppercase; letter-spacing:1px;">Case Study 01</div>
       <h2>x-Plica</h2>
       <p class="case-sub">Cognitive friction and critical agency in hybrid human-AI workflows</p>
       <div class="case-meta">
@@ -385,7 +837,7 @@
 
       <div class="block">
         <h4>My role and method</h4>
-        <p>I designed and ran the full study: recruitment, task design, observation protocol, and qualitative analysis. I adapted four of Nielsen’s heuristics to the human-AI context, pairing them with user observation to understand the experience as a whole.</p>
+        <p>I designed and ran the full study: recruitment, task design, observation protocol, and qualitative analysis. I adapted four of Nielsen's heuristics to the human-AI context, pairing them with user observation to understand the experience as a whole.</p>
       </div>
 
       <div class="block">
@@ -395,7 +847,7 @@
           <div class="stat"><b>4.5/5</b><span>rating of the mind map (best-reviewed component)</span></div>
           <div class="stat"><b>3–5/5</b><span>variance in how the risk semaphore was understood</span></div>
         </div>
-        <p style="margin-top:16px;">The central finding: two types of friction with opposite effects. <b>Operational friction</b> (switching platforms) pushed out more than half the participants before they could finish the task, while <b>cognitive friction</b> in the analysis workflow helped improve critical reflection when well-scaffolded.</p>
+        <p style="margin-top:24px;">The central finding: two types of friction with opposite effects. <b>Operational friction</b> (switching platforms) pushed out more than half the participants before they could finish the task, while <b>cognitive friction</b> in the analysis workflow helped improve critical reflection when well-scaffolded.</p>
       </div>
 
       <div class="block">
@@ -408,16 +860,16 @@
         </ul>
       </div>
 
-      <a class="case-link" href="https://www.figma.com/design/qyCEz1cg4FXCfAMYsRTX1j/DHR-Sistema" target="_blank" rel="noreferrer">View system in Figma</a>
-      <p class="note">High-fidelity screens for this project live in Figma — I can add real exported images here once you share the PNGs.</p>
+      <a class="case-link" href="https://www.figma.com/design/qyCEz1cg4FXCfAMYsRTX1j/DHR-Sistema" target="_blank" rel="noreferrer">View system in Figma ↗</a>
+      <p class="note">High-fidelity screens live in Figma. Export PNGs to embed here.</p>
     </div>
   </section>
 
   <section class="case alt" id="case-kroma">
     <div class="wrap">
-      <div class="tag" style="color:var(--orange); font-weight:600; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.03em;">Case Study 02</div>
+      <div class="tag" style="color:var(--accent); font-weight:700; font-size:0.75rem; text-transform:uppercase; letter-spacing:1px;">Case Study 02</div>
       <h2>Kroma QA Studio</h2>
-      <p class="case-sub">Turning off “Hard Mode” in Game QA operations</p>
+      <p class="case-sub">Turning off "Hard Mode" in Game QA operations</p>
       <div class="case-meta">
         <span><b>Role:</b> Diagnosis + solution design</span>
         <span><b>Status:</b> Approved, rolling out in tiers</span>
@@ -427,39 +879,51 @@
         <h4>The problem</h4>
         <p>The QA team was operating in unnecessary hard mode: 35–40% of their time went into administrative tasks (spreadsheets, copy-paste, inconsistent formats) instead of real testing. The cause was a fragmented flow with multiple handoffs and unreliable metadata capture.</p>
         <div class="stat-row">
-          <div class="stat"><b>35–40%</b><span>time spent on admin tasks (current state)</span></div>
+          <div class="stat"><b>35–40%</b><span>time spent on admin (current state)</span></div>
           <div class="stat"><b>15%</b><span>admin-time target after optimization</span></div>
         </div>
-        <div class="placeholder-art" aria-label="Project mockup placeholder">Diagnosis snapshot · friction points + time loss visual</div>
+        <div class="placeholder-art">Diagnosis · friction points and time loss analysis</div>
         <div class="slide-grid">
-          <div class="placeholder-art" aria-label="Current state summary">Current state</div>
-          <div class="placeholder-art" aria-label="Target state summary">Target state</div>
+          <div class="placeholder-art">Current state: manual workflows</div>
+          <div class="placeholder-art">Target state: streamlined process</div>
         </div>
       </div>
 
       <div class="block">
-        <h4>The solution: heuristics applied to the ticket flow</h4>
+        <h4>The solution: Nielsen's heuristics applied to ticket flow</h4>
         <table class="heur-table">
-          <tr><td>Visibility of system status</td><td>The active build is inherited and shown automatically on every ticket, no manual entry.</td></tr>
-          <tr><td>Recognition over recall</td><td>A bank of technical synonyms as selectable chips (Freeze, Crash, Lag, Glitch…) instead of free-text fields.</td></tr>
-          <tr><td>Consistency and standards</td><td>Unified dropdowns and a closed catalog of authorized builds, removing spelling variants.</td></tr>
-          <tr><td>Error prevention</td><td>Flow segmented by stage of the bug lifecycle (Ticket → Verify Open → Verify Fix → NMI), each with its own specific fields.</td></tr>
+          <tr>
+            <td>Visibility of system status</td>
+            <td>The active build is inherited and shown automatically on every ticket, no manual entry.</td>
+          </tr>
+          <tr>
+            <td>Recognition over recall</td>
+            <td>A bank of technical synonyms as selectable chips (Freeze, Crash, Lag, Glitch…) instead of free-text fields.</td>
+          </tr>
+          <tr>
+            <td>Consistency and standards</td>
+            <td>Unified dropdowns and a closed catalog of authorized builds, removing spelling variants.</td>
+          </tr>
+          <tr>
+            <td>Error prevention</td>
+            <td>Flow segmented by bug lifecycle stage (Ticket → Verify Open → Verify Fix → NMI), each with specific fields.</td>
+          </tr>
         </table>
-        <div class="placeholder-art" aria-label="Functional mockup placeholder">Functional mockup · ticket creation flow with synonym bank and live preview</div>
+        <div class="placeholder-art">Functional mockup · ticket creation with synonym bank and live preview</div>
       </div>
 
       <div class="block">
         <h4>Outcome</h4>
         <p>Project approved. Three-phase roadmap: quick wins (unify dropdowns, remove redundant fields), consolidation (automated forms, DRE measurement), and maturity (technical sync with development).</p>
-        <div class="placeholder-art" style="max-width:420px;" aria-label="Business goal placeholder">Business goal: shift from counting reports to measuring Defect Removal Efficiency (DRE)</div>
+        <div class="placeholder-art" style="max-width:440px; margin-left:0;">Business goal: shift from counting reports to measuring Defect Removal Efficiency (DRE)</div>
       </div>
     </div>
   </section>
 
   <footer>
     <div class="wrap" id="contact">
-      <p><b>Daniel Huerta Romero</b> — UX/UI Analyst, Mexico City</p>
-      <p style="margin-top:8px;">
+      <p><strong>Daniel Huerta Romero</strong> — UX/UI Analyst, Mexico City</p>
+      <p>
         <a href="mailto:dann1057@gmail.com">dann1057@gmail.com</a> ·
         <a href="https://www.linkedin.com/in/daniel-huerta-7a797333/" target="_blank" rel="noreferrer">LinkedIn</a> ·
         <a href="https://www.figma.com/design/qyCEz1cg4FXCfAMYsRTX1j/DHR-Sistema" target="_blank" rel="noreferrer">Figma</a>
@@ -471,17 +935,18 @@
     function toggleTheme() {
       const root = document.documentElement;
       const isDark = root.getAttribute('data-theme') === 'dark';
-      root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      const newTheme = isDark ? 'light' : 'dark';
+      root.setAttribute('data-theme', newTheme);
       document.getElementById('themeBtn').textContent = isDark ? 'Dark' : 'Light';
-      localStorage.setItem('dhr-theme', isDark ? 'light' : 'dark');
+      localStorage.setItem('dhr-theme', newTheme);
     }
 
-    const savedTheme = localStorage.getItem('dhr-theme');
-    if (savedTheme) {
-      document.documentElement.setAttribute('data-theme', savedTheme);
-      document.getElementById('themeBtn').textContent = savedTheme === 'dark' ? 'Light' : 'Dark';
-    }
+    // Load saved theme preference
+    const savedTheme = localStorage.getItem('dhr-theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    document.getElementById('themeBtn').textContent = savedTheme === 'dark' ? 'Light' : 'Dark';
 
+    // Attach event listener
     document.getElementById('themeBtn').addEventListener('click', toggleTheme);
   </script>
 </body>
