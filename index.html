@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Daniel Huerta — UX Research</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hedvig+Letters+Serif&family=Rethink+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1E3D59; --orange:#FA9819; --babyblue:#C6EBF7; --offblue:#E8EBEF;
+  --ink:#16232F; --muted:#5A6672; --line:#D9E2E8; --bg:#FCFCFB; --card:#FFFFFF;
+}
+:root:not([data-theme="light"]){
+  --bg:#12181D; --card:#182027; --ink:#EDEFF1; --muted:#9BA6AF; --line:#2B353D; --offblue:#1B2830; --babyblue:#20323C;
+}
+:root[data-theme="dark"]{
+  --bg:#12181D; --card:#182027; --ink:#EDEFF1; --muted:#9BA6AF; --line:#2B353D; --offblue:#1B2830; --babyblue:#20323C;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+button,input,select{font:inherit;color:inherit}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+body{
+  font-family:'Rethink Sans',sans-serif; background:var(--bg); color:var(--ink);
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  line-height:1.55;
+}
+h1,h2,h3{font-family:'Hedvig Letters Serif',serif; font-weight:400; color:var(--navy)}
+:root:not([data-theme="light"]) h1, :root:not([data-theme="light"]) h2, :root:not([data-theme="light"]) h3{color:#EAF4FA}
+a{color:var(--navy)}
+:root:not([data-theme="light"]) a{color:var(--babyblue)}
+img{max-width:100%; display:block; border-radius:4px}
+.wrap{max-width:760px; margin:0 auto; padding:0 24px}
+
+header{
+  position:sticky; top:env(safe-area-inset-top,0px); z-index:10;
+  background:var(--bg); border-bottom:1px solid var(--line);
+}
+.navbar{
+  display:flex; align-items:center; justify-content:space-between; flex-wrap:nowrap; gap:14px;
+  padding:14px 24px; max-width:760px; margin:0 auto; height:52px;
+}
+.brand{font-family:'Hedvig Letters Serif',serif; font-size:1.05rem; flex-shrink:0; white-space:nowrap}
+.navlinks{display:flex; gap:18px; font-size:0.88rem; overflow-x:auto; white-space:nowrap; scrollbar-width:none}
+.navlinks::-webkit-scrollbar{display:none}
+.navlinks a{text-decoration:none; color:var(--muted); flex-shrink:0}
+.navlinks a:hover{color:var(--orange)}
+.theme-btn{
+  background:none; border:1px solid var(--line); border-radius:20px; padding:6px 14px;
+  font-size:0.8rem; color:var(--muted); cursor:pointer; flex-shrink:0; line-height:1.2; height:32px;
+}
+
+section{padding:64px 0}
+.hero{padding-top:56px; padding-bottom:16px}
+.hero-grid{display:grid; grid-template-columns:1.3fr 0.9fr; gap:40px; align-items:start}
+.avatar-row{display:flex; align-items:center; gap:14px; margin-bottom:22px}
+.avatar-row img{width:56px; height:56px; border-radius:50%; object-fit:cover; border:2px solid var(--card); box-shadow:0 0 0 1px var(--line)}
+.avatar-row span{font-size:0.95rem; color:var(--muted)}
+.eyebrow{color:var(--orange); font-weight:600; font-size:0.85rem; margin-bottom:14px}
+h1.headline{font-size:2.4rem; line-height:1.22}
+.hero p.lede{margin-top:20px; font-size:1.08rem; color:var(--muted); max-width:52ch}
+.hero-links{margin-top:26px; display:flex; gap:18px; flex-wrap:wrap; font-size:0.92rem}
+.hero-links a{text-decoration:none; border-bottom:1px solid var(--navy); padding-bottom:2px}
+:root:not([data-theme="light"]) .hero-links a{border-color:var(--babyblue)}
+
+.signal-panel{border:1px solid var(--line); border-top:3px solid var(--orange); padding:22px; background:var(--card)}
+.signal-panel .num{font-family:'Hedvig Letters Serif',serif; font-size:2.6rem; color:var(--navy); line-height:1}
+:root:not([data-theme="light"]) .signal-panel .num{color:var(--babyblue)}
+.signal-panel .num-label{font-size:0.85rem; color:var(--muted); margin-top:6px}
+.signal-panel hr{border:none; border-top:1px solid var(--line); margin:16px 0}
+.signal-panel .mini{font-size:0.85rem; color:var(--muted); display:flex; justify-content:space-between; margin-bottom:8px}
+.signal-panel .mini b{color:var(--ink)}
+
+@media(max-width:720px){
+  .hero-grid{grid-template-columns:1fr}
+}
+
+.chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:20px}
+.chip{border:1px solid var(--line); border-radius:20px; padding:5px 12px; font-size:0.82rem; color:var(--muted)}
+
+.divider{border:none; border-top:1px solid var(--line)}
+
+.steps{margin-top:28px; display:grid; grid-template-columns:1fr; gap:0}
+.step{display:grid; grid-template-columns:52px 1fr; gap:18px; padding:22px 0; border-top:1px solid var(--line)}
+.step:last-child{border-bottom:1px solid var(--line)}
+.step-num{font-family:'Hedvig Letters Serif',serif; font-size:1.3rem; color:var(--orange)}
+.step h4{font-family:'Rethink Sans',sans-serif; font-weight:700; font-size:1rem; margin-bottom:6px}
+.step p{color:var(--muted); font-size:0.95rem; max-width:56ch}
+
+.project-card{border-top:3px solid var(--orange); background:var(--card); padding:26px 28px; margin-bottom:20px}
+.project-card .tag{font-size:0.78rem; color:var(--orange); font-weight:600; text-transform:uppercase; letter-spacing:0.03em}
+.project-card h3{font-size:1.4rem; margin:8px 0 8px}
+.project-card p{color:var(--muted)}
+.project-card a{display:inline-block; margin-top:14px; font-size:0.9rem; text-decoration:none; border-bottom:1px solid var(--navy)}
+:root:not([data-theme="light"]) .project-card a{border-color:var(--babyblue)}
+
+.case{padding:56px 0; border-top:1px solid var(--line)}
+.case.alt{background:var(--offblue)}
+.case.alt .wrap{padding-top:8px}
+.case-meta{display:flex; gap:24px; flex-wrap:wrap; margin:18px 0 28px; font-size:0.85rem; color:var(--muted)}
+.case-meta b{color:var(--ink)}
+.case h2{font-size:1.9rem}
+.case-sub{color:var(--muted); font-size:1.05rem; margin-top:6px}
+.block{margin-top:30px}
+.block h4{font-family:'Rethink Sans',sans-serif; font-weight:700; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.03em; color:var(--navy); margin-bottom:10px}
+:root:not([data-theme="light"]) .block h4{color:var(--babyblue)}
+.block ul{padding-left:20px}
+.block li{margin-bottom:6px}
+.stat-row{display:flex; gap:28px; flex-wrap:wrap; margin-top:14px}
+.stat{background:var(--offblue); padding:14px 18px; min-width:150px}
+.case.alt .stat{background:var(--card)}
+.stat b{display:block; font-size:1.4rem; font-family:'Hedvig Letters Serif',serif; color:var(--navy)}
+:root:not([data-theme="light"]) .stat b{color:var(--babyblue)}
+.stat span{font-size:0.8rem; color:var(--muted)}
+.heur-table{width:100%; border-collapse:collapse; margin-top:14px; font-size:0.92rem}
+.heur-table td{padding:10px 0; border-bottom:1px solid var(--line); vertical-align:top}
+.heur-table td:first-child{color:var(--navy); font-weight:600; width:38%; padding-right:16px}
+:root:not([data-theme="light"]) .heur-table td:first-child{color:var(--babyblue)}
+.case-link{display:inline-block; margin-top:24px; background:var(--navy); color:#fff; padding:10px 20px; text-decoration:none; font-size:0.9rem}
+.case-link:hover{background:var(--orange)}
+
+.feature-shot{margin-top:24px; border:1px solid var(--line)}
+.feature-shot img{border-radius:0}
+.caption{font-size:0.78rem; color:var(--muted); margin-top:8px}
+.slide-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:16px}
+.slide-grid figure{margin:0}
+.slide-grid img{border:1px solid var(--line); border-radius:0}
+.slide-grid figcaption{font-size:0.78rem; color:var(--muted); margin-top:6px}
+@media(max-width:600px){.slide-grid{grid-template-columns:1fr}}
+
+.note{font-size:0.85rem; color:var(--muted); border-left:2px solid var(--orange); padding-left:12px; margin-top:16px}
+
+footer{padding:56px 0 40px; border-top:1px solid var(--line); font-size:0.9rem; color:var(--muted)}
+footer a{color:var(--navy)}
+:root:not([data-theme="light"]) footer a{color:var(--babyblue)}
+
+@media(max-width:600px){
+  h1.headline{font-size:1.85rem}
+  .navlinks{gap:12px; font-size:0.8rem}
+  .brand{font-size:0.95rem}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="navbar">
+    <div class="brand">Daniel Huerta</div>
+    <nav class="navlinks">
+      <a href="#about">About</a>
+      <a href="#how-i-work">How I Work</a>
+      <a href="#work">Work</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">Dark</button>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="avatar-row"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4[...]
+        <div class="eyebrow">UX Research · Heuristic Evaluation</div>
+        <h1 class="headline">I design grounded in research… because assumptions are expensive.</h1>
+        <p class="lede">UX/UI Analyst with applied experience in usability research, heuristic evaluation and reducing operational friction — with published academic work on human-AI interaction.</p>
+        <div class="hero-links">
+          <a href="mailto:dann1057@gmail.com">Email</a>
+          <a href="https://www.linkedin.com/in/daniel-huerta-7a797333/" target="_blank">LinkedIn</a>
+          <a href="https://www.figma.com/design/qyCEz1cg4FXCfAMYsRTX1j/DHR-Sistema" target="_blank">Figma</a>
+        </div>
+      </div>
+      <div class="signal-panel">
+        <div class="num">55.6%</div>
+        <div class="num-label">dropout rate explained by operational friction — the central finding of my usability thesis</div>
+        <hr>
+        <div class="mini"><span>x-Plica study</span><b>N=9, qualitative</b></div>
+        <div class="mini"><span>Publication</span><b>Rev. Entretejidos, 2026</b></div>
+        <div class="mini"><span>Kroma project</span><b>Approved</b></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section id="about">
+    <h2>About</h2>
+    <p style="margin-top:16px; color:var(--muted); max-width:60ch">
+      I work at the intersection of research and design: adapting usability heuristics, running qualitative studies, and translating findings into concrete product decisions. My research on human-AI interaction and operational friction led me to build a portfolio focused on evidence-based design.</p>
+    <div class="chips">
+      <span class="chip">Heuristic Evaluation (Nielsen)</span>
+      <span class="chip">Usability Testing</span>
+      <span class="chip">Wireframing &amp; Prototyping</span>
+      <span class="chip">Information Architecture</span>
+      <span class="chip">UX Writing</span>
+      <span class="chip">Design Thinking</span>
+      <span class="chip">Figma</span>
+    </div>
+  </section>
+
+  <hr class="divider" style="margin-top:56px">
+
+  <section id="how-i-work">
+    <h2>How I Work</h2>
+    <p style="margin-top:12px; color:var(--muted); max-width:56ch">The same four steps, whether the deliverable is an academic paper or a shipped feature.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div>
+          <h4>Frame the real question</h4>
+          <p>Before testing anything, I pin down what's actually being evaluated and why it matters — a vague "improve usability" becomes a testable question tied to a specific behavior or decision.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div>
+          <h4>Investigate with the right method</h4>
+          <p>I choose between qualitative studies, heuristic evaluation, or both depending on the question — recruiting participants, designing tasks, and adapting Nielsen's heuristics to the specific context.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div>
+          <h4>Separate signal from noise</h4>
+          <p>Not all friction is a problem. I look for the type and source of friction — operational barriers to remove versus deliberate friction worth preserving — before proposing a fix.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div>
+          <h4>Turn findings into something buildable</h4>
+          <p>Recommendations come with a concrete artifact — a redesigned flow, a prioritized roadmap, or a working mockup — not just a slide of insights.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" style="margin-top:16px">
+
+  <section id="work">
+    <h2>Work</h2>
+    <div style="margin-top:24px">
+      <div class="project-card">
+        <div class="tag">Academic research · N=9</div>
+        <h3>x-Plica</h3>
+        <p>Usability evaluation of a hybrid human-AI workflow for critically analyzing viral content. I identified two types of friction with opposite effects on the experience.</p>
+        <a href="#case-xplica">View case study →</a>
+      </div>
+      <div class="project-card">
+        <div class="tag">Internal product · Approved</div>
+        <h3>Kroma QA Studio</h3>
+        <p>Redesign of the video game QA ticket-creation flow applying Nielsen's heuristics, to cut operational errors and free up time for real testing.</p>
+        <a href="#case-kroma">View case study →</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<section class="case" id="case-xplica">
+  <div class="wrap">
+    <div class="tag" style="color:var(--orange); font-weight:600; font-size:0.8rem; text-transform:uppercase">Case Study 01</div>
+    <h2>x-Plica</h2>
+    <p class="case-sub">Cognitive friction and critical agency in hybrid human-AI workflows</p>
+    <div class="case-meta">
+      <span><b>Role:</b> UX Researcher (solo)</span>
+      <span><b>Method:</b> Qualitative study, adapted Nielsen heuristics</span>
+      <span><b>Publication:</b> Revista Entretejidos, 2026</span>
+    </div>
+
+    <div class="block">
+      <h4>Context</h4>
+      <p>x-Plica is a human-AI workflow (Grok 3 + NotebookLM) designed to help people critically analyze viral content on platform X, without handing the final judgment to the AI. I evaluated whether the workflow enabled critical thinking or unintentionally increased cognitive and operational burden.</p>
+    </div>
+
+    <div class="block">
+      <h4>My role and method</h4>
+      <p>I designed and ran the full study: recruitment, task design, observation protocol, and qualitative analysis. I adapted 4 of Nielsen's heuristics to the human-AI context (Amershi et al.'s guidance on AI system usability) and used them to interpret how users moved between tools, prompts, and risk signals.</p>
+    </div>
+
+    <div class="block">
+      <h4>Key findings</h4>
+      <div class="stat-row">
+        <div class="stat"><b>55.6%</b><span>dropout rate due to operational friction (switching between 3 platforms)</span></div>
+        <div class="stat"><b>4.5/5</b><span>rating of the mind map (best-reviewed component)</span></div>
+        <div class="stat"><b>3–5/5</b><span>variance in how the risk semaphore was understood</span></div>
+      </div>
+      <p style="margin-top:16px">The central finding: two types of friction with opposite effects. <b>Operational friction</b> (switching platforms) pushed out more than half the participants before they could complete the task; <b>cognitive friction</b> in the mind map was seen as productive because it supported reflection and agency.</p>
+    </div>
+
+    <div class="block">
+      <h4>Design recommendations</h4>
+      <ul>
+        <li>Native integration (overlay/extension) to remove platform switching</li>
+        <li>Redesign the risk semaphore as sequential binary questions</li>
+        <li>3-step conceptual onboarding with real examples from X</li>
+        <li>Selective activation to prevent alert fatigue</li>
+      </ul>
+    </div>
+
+    <a class="case-link" href="https://www.figma.com/design/qyCEz1cg4FXCfAMYsRTX1j/DHR-Sistema" target="_blank">View system in Figma</a>
+    <p class="note">High-fidelity screens for this project live in Figma — I can add real exported images here once you share the PNGs (see note below).</p>
+  </div>
+</section>
+
+<section class="case alt" id="case-kroma">
+  <div class="wrap">
+    <div class="tag" style="color:var(--orange); font-weight:600; font-size:0.8rem; text-transform:uppercase">Case Study 02</div>
+    <h2>Kroma QA Studio</h2>
+    <p class="case-sub">Turning off "Hard Mode" in Game QA operations</p>
+    <div class="case-meta">
+      <span><b>Role:</b> Diagnosis + solution design</span>
+      <span><b>Status:</b> Approved, rolling out in tiers</span>
+    </div>
+
+    <div class="block">
+      <h4>The problem</h4>
+      <p>The QA team was operating in unnecessary hard mode: 35–40% of their time went into administrative tasks (spreadsheets, copy-paste, inconsistent formats) instead of real testing. The cause was not lack of effort — it was fragmented workflow design.</p>
+      <div class="stat-row">
+        <div class="stat"><b>35–40%</b><span>time spent on admin tasks (current state)</span></div>
+        <div class="stat"><b>15%</b><span>admin-time target after optimization</span></div>
+      </div>
+      <figure class="feature-shot">
+        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAcFBQYFBAcGBgYIBwcICxILCwoKCxYPEA0SGhYbGhkWGRgcICgiHB4mHhgZIzAkJiorLS4tGyIyNTEsNSgsLSz/2wBDAQcICAsJCxULCxUsHRkdLCwsLCwsLCwsLCw" alt="Kroma project flow">
+      </figure>
+      <div class="slide-grid">
+        <figure>
+          <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAcFBQYFBAcGBgYIBwcICxILCwoKCxYPEA0SGhYbGhkWGRgcICgiHB4mHhgZIzAkJiorLS4tGyIyNTEsNSgsLSz/2wBDAQcICAsJCxULCxUsHRkdLCwsLCwsLCwsL" alt="Frictions found">
+          <figcaption>The 5 friction points identified during the diagnosis</figcaption>
+        </figure>
+        <figure>
+          <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAcFBQYFBAcGBgYIBwcICxILCwoKCxYPEA0SGhYbGhkWGRgcICgiHB4mHhgZIzAkJiorLS4tGyIyNTEsNSgsLSz/2wBDAQcICAsJCxULCxUsHRkdLCwsLCwsLCwsL" alt="Current versus target state">
+          <figcaption>Current vs. target state: admin work vs. high-value testing</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="block">
+      <h4>The solution: heuristics applied to the ticket flow</h4>
+      <table class="heur-table">
+        <tr><td>Visibility of system status</td><td>The active build is inherited and shown automatically on every ticket, no manual entry</td></tr>
+        <tr><td>Recognition over recall</td><td>A bank of technical synonyms as selectable chips (Freeze, Crash, Lag, Glitch...) instead of free-text fields</td></tr>
+        <tr><td>Consistency and standards</td><td>Unified dropdowns and a closed catalog of authorized builds, removing spelling variants</td></tr>
+        <tr><td>Error prevention</td><td>Flow segmented by stage of the bug lifecycle (Ticket → Verify Open → Verify Fix → NMI), each with its own specific fields</td></tr>
+      </table>
+      <figure class="feature-shot">
+        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCg" alt="Ticket creation flow mockup">
+        <figcaption class="caption" style="padding:10px 14px">Functional mockup — ticket-creation flow with synonym bank and live preview</figcaption>
+      </figure>
+    </div>
+
+    <div class="block">
+      <h4>Outcome</h4>
+      <p>Project approved. Three-phase roadmap: quick wins (unify dropdowns, remove redundant fields), consolidation (automated forms, DRE measurement), and maturity (technical sync with development). The redesign shifts effort from reporting to diagnosing.</p>
+      <figure class="feature-shot" style="max-width:420px">
+        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAcFBQYFBAcGBgYIBwcICxILCwoKCxYPEA0SGhYbGhkWGRgcICgiHB4mHhgZIzAkJiorLS4tGyIyNTEsNSgsLSz/2wBDAQcICAsJCxULCxUsHRkdLCwsLCwsLC" alt="Business goal graphic">
+        <figcaption class="caption" style="padding:10px 14px">Business goal: shift from counting reports to measuring Defect Removal Efficiency (DRE)</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" id="contact">
+    <p><b>Daniel Huerta Romero</b> — UX/UI Analyst, Mexico City</p>
+    <p style="margin-top:8px">
+      <a href="mailto:dann1057@gmail.com">dann1057@gmail.com</a> ·
+      <a href="https://www.linkedin.com/in/daniel-huerta-7a797333/" target="_blank">LinkedIn</a> ·
+      <a href="https://www.figma.com/design/qyCEz1cg4FXCfAMYsRTX1j/DHR-Sistema" target="_blank">Figma</a>
+    </p>
+  </div>
+</footer>
+
+<script>
+function toggleTheme(){
+  const root=document.documentElement;
+  const isDark=root.getAttribute('data-theme')==='dark';
+  root.setAttribute('data-theme', isDark?'light':'dark');
+  document.getElementById('themeBtn').textContent = isDark?'Dark':'Light';
+}
+</script>
+</body>
+</html>
