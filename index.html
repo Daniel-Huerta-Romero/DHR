@@ -181,7 +181,21 @@ h1.headline{font-size:2.4rem; line-height:1.22}
 footer{padding:56px 0 40px; border-top:1px solid var(--line); font-size:0.9rem; color:var(--muted)}
 footer a{color:var(--navy)}
 :root:not([data-theme="light"]) footer a{color:var(--babyblue)}
-.footer-row{display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap}
+
+.footer-content{display:grid; grid-template-columns:1fr auto; gap:24px; align-items:start}
+.footer-text p{margin:0}
+.footer-text p:last-child{margin-top:8px}
+
+.footer-theme-toggle{
+  width:46px; height:26px; border-radius:14px; border:1px solid var(--line);
+  background:var(--offblue); position:relative; cursor:pointer; padding:0;
+  display:none;
+}
+.footer-theme-toggle .knob{
+  position:absolute; top:2px; left:2px; width:20px; height:20px; border-radius:50%;
+  background:var(--navy); transition:transform .18s ease, background .18s ease;
+}
+[data-theme="dark"] .footer-theme-toggle .knob{ transform:translateX(20px); background:var(--orange); }
 
 .reveal{opacity:0; transform:translateY(14px); transition:opacity .5s ease, transform .5s ease}
 .reveal.in-view{opacity:1; transform:translateY(0)}
@@ -197,24 +211,14 @@ footer a{color:var(--navy)}
   .navlinks{gap:12px; font-size:0.78rem}
   .brand{font-size:0.94rem}
   .theme-toggle{display:none}
-  .footer-theme-toggle{display:inline-block}
-  .footer-row{align-items:center}
+  .footer-theme-toggle{display:block}
+  .footer-content{grid-template-columns:1fr auto}
 }
 
 @media(max-width:600px){
   h1.headline{font-size:1.85rem}
   p.justify{text-align:left}
 }
-
-.footer-theme-toggle{
-  display:none; width:46px; height:26px; border-radius:14px; border:1px solid var(--line);
-  background:var(--offblue); position:relative; cursor:pointer; padding:0; margin-left:auto;
-}
-.footer-theme-toggle .knob{
-  position:absolute; top:2px; left:2px; width:20px; height:20px; border-radius:50%;
-  background:var(--navy); transition:transform .18s ease, background .18s ease;
-}
-[data-theme="dark"] .footer-theme-toggle .knob{ transform:translateX(20px); background:var(--orange); }
 </style>
 </head>
 <body>
@@ -465,10 +469,10 @@ footer a{color:var(--navy)}
 
 <footer>
   <div class="wrap" id="contact">
-    <div class="footer-row">
-      <div>
+    <div class="footer-content">
+      <div class="footer-text">
         <p><b>Daniel Huerta Romero</b> — UX/UI Analyst, Mexico City</p>
-        <p style="margin-top:8px">
+        <p>
           <a href="mailto:dann1057@gmail.com">dann1057@gmail.com</a> ·
           <a href="https://www.linkedin.com/in/daniel-huerta-7a797333/" target="_blank">LinkedIn</a> ·
           <a href="https://www.figma.com/design/qyCEz1cg4FXCfAMYsRTX1j/DHR-Sistema" target="_blank">Figma</a> ·
