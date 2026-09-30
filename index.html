@@ -36,7 +36,7 @@ img{max-width:100%; display:block; border-radius:4px}
 /* readable justified body copy */
 p.justify{text-align:justify; -webkit-hyphens:auto; hyphens:auto}
 
-a:focus-visible, button:focus-visible, .theme-toggle:focus-visible{
+a:focus-visible, button:focus-visible, .theme-toggle:focus-visible, .theme-toggle-floating:focus-visible{
   outline:2px solid var(--orange); outline-offset:3px; border-radius:2px;
 }
 .skip-link{
@@ -68,11 +68,24 @@ header{
   flex-shrink:0; width:46px; height:26px; border-radius:14px; border:1px solid var(--line);
   background:var(--offblue); position:relative; cursor:pointer; padding:0;
 }
-.theme-toggle .knob{
+.theme-toggle .knob,
+.theme-toggle-floating .knob{
   position:absolute; top:2px; left:2px; width:20px; height:20px; border-radius:50%;
   background:var(--navy); transition:transform .18s ease, background .18s ease;
 }
-[data-theme="dark"] .theme-toggle .knob{ transform:translateX(20px); background:var(--orange); }
+[data-theme="dark"] .theme-toggle .knob,
+[data-theme="dark"] .theme-toggle-floating .knob{ transform:translateX(20px); background:var(--orange); }
+
+.theme-toggle-floating{
+  position:fixed; right:20px; bottom:20px; z-index:40;
+  width:52px; height:52px; border:1px solid var(--line); border-radius:50%;
+  background:var(--offblue); cursor:pointer; padding:0; display:none;
+  box-shadow:0 8px 22px rgba(20,30,40,0.12);
+}
+.theme-toggle-floating .knob{
+  top:16px; left:16px;
+}
+[data-theme="dark"] .theme-toggle-floating .knob{ transform:translateX(20px); }
 
 section{padding:64px 0}
 .hero{padding-top:56px; padding-bottom:16px}
@@ -191,10 +204,16 @@ footer a{color:var(--navy)}
   .reveal{opacity:1; transform:none}
 }
 
+@media(max-width:720px){
+  .navbar{padding:14px 16px; gap:8px}
+  .navlinks{gap:12px; font-size:0.78rem}
+  .brand{font-size:0.94rem}
+  .theme-toggle{display:none}
+  .theme-toggle-floating{display:block}
+}
+
 @media(max-width:600px){
   h1.headline{font-size:1.85rem}
-  .navlinks{gap:12px; font-size:0.8rem}
-  .brand{font-size:0.95rem}
   p.justify{text-align:left}
 }
 </style>
@@ -216,6 +235,8 @@ footer a{color:var(--navy)}
   </div>
 </header>
 
+<button class="theme-toggle-floating" id="themeFloatingBtn" onclick="toggleTheme()" aria-label="Toggle dark mode" aria-pressed="false"><span class="knob"></span></button>
+
 <main id="main">
 <div class="wrap">
 
@@ -225,7 +246,7 @@ footer a{color:var(--navy)}
         <div class="avatar-row"><img src="images/avatar.jpg" alt="Photo of Daniel Huerta"><span>Daniel Huerta Romero</span></div>
         <div class="eyebrow">UX Research · Heuristic Evaluation</div>
         <h1 class="headline">I design grounded in research… because assumptions are expensive.</h1>
-        <p class="lede">UX/UI Analyst with applied experience in usability research, heuristic evaluation and reducing operational friction — with published academic work on human-AI interaction.</p>
+        <p class="lede">UX/UI Analyst with applied experience in usability research, heuristic evaluation and reducing operational friction — with published academic work on human-AI interaction and design systems.</p>
         <div class="cta-row">
           <a class="btn-primary" href="#work">See my work →</a>
         </div>
@@ -252,7 +273,7 @@ footer a{color:var(--navy)}
   <section id="about" class="reveal">
     <h2>About</h2>
     <p class="justify" style="margin-top:16px; color:var(--muted); max-width:60ch">
-      I work at the intersection of research and design: adapting usability heuristics, running qualitative studies, and translating findings into concrete product decisions. My research on human-AI interaction was published in Revista Entretejidos (ICONOS, 2026). I currently combine this practice with video game testing and I'm completing my UX/UI certification at EBAC (2026–2028).
+      I work at the intersection of research and design: adapting usability heuristics, running qualitative studies, and translating findings into concrete product decisions. My research on human-AI interaction and operational friction has informed how I approach product diagnosis, wireframing, and validation.
     </p>
     <div class="chips">
       <span class="chip">Heuristic Evaluation (Nielsen)</span>
@@ -282,7 +303,7 @@ footer a{color:var(--navy)}
         <div class="step-num">02</div>
         <div>
           <h4>Investigate with the right method</h4>
-          <p>I choose between qualitative studies, heuristic evaluation, or both depending on the question — recruiting participants, designing tasks, and adapting Nielsen's heuristics to the specific interaction context.</p>
+          <p>I choose between qualitative studies, heuristic evaluation, or both depending on the question — recruiting participants, designing tasks, and adapting Nielsen's heuristics to the specific context.</p>
         </div>
       </div>
       <div class="step">
@@ -337,12 +358,12 @@ footer a{color:var(--navy)}
 
     <div class="block">
       <h4>Context</h4>
-      <p class="justify">x-Plica is a human-AI workflow (Grok 3 + NotebookLM) designed to help people critically analyze viral content on platform X, without handing the final judgment to the AI. I evaluated whether the system actually achieved that goal.</p>
+      <p class="justify">x-Plica is a human-AI workflow (Grok 3 + NotebookLM) designed to help people critically analyze viral content on platform X, without handing the final judgment to the AI. The research focused on where the workflow helped or hindered critical reading.</p>
     </div>
 
     <div class="block">
       <h4>My role and method</h4>
-      <p class="justify">I designed and ran the full study: recruitment, task design, observation protocol, and qualitative analysis. I adapted 4 of Nielsen's heuristics to the human-AI context (Amershi et al.'s framework) and applied pre/post questionnaires with Likert scales and open-ended questions to 9 participants.</p>
+      <p class="justify">I designed and ran the full study: recruitment, task design, observation protocol, and qualitative analysis. I adapted 4 of Nielsen's heuristics to the human-AI context, plus a critical agency lens, to evaluate where cognitive load and trust broke down.</p>
     </div>
 
     <div class="block">
@@ -366,7 +387,7 @@ footer a{color:var(--navy)}
           <figcaption>Component diagnostic — visual synthesis outperformed numerical abstraction</figcaption>
         </figure>
       </div>
-      <p class="justify" style="margin-top:16px">The central finding: two types of friction with opposite effects. <b>Operational friction</b> (switching platforms) pushed out more than half the participants before they could experience the system's value. <b>Deliberate cognitive friction</b> from the prompt, by contrast, strengthened participants' ability to pause and question emotionally charged content.</p>
+      <p class="justify" style="margin-top:16px">The central finding: two types of friction with opposite effects. <b>Operational friction</b> (switching platforms) pushed out more than half the participants. <b>Deliberate cognitive friction</b> (timed reflection prompts) preserved agency and improved critical inquiry when used intentionally.</p>
     </div>
 
     <div class="block">
@@ -399,7 +420,7 @@ footer a{color:var(--navy)}
 
     <div class="block">
       <h4>The problem</h4>
-      <p class="justify">The QA team was operating in unnecessary hard mode: 35–40% of their time went into administrative tasks (spreadsheets, copy-paste, inconsistent formats) instead of real testing. The cause wasn't a lack of talent — it was tools that ignored basic usability principles, which produced constant errors when creating tickets.</p>
+      <p class="justify">The QA team was operating in unnecessary hard mode: 35–40% of their time went into administrative tasks (spreadsheets, copy-paste, inconsistent formats) instead of real gameplay testing. The friction was not in the testing itself, but in the overhead around creating, classifying, and tracking defects.</p>
       <div class="stat-row">
         <div class="stat"><b>35–40%</b><span>time spent on admin tasks (current state)</span></div>
         <div class="stat"><b>15%</b><span>admin-time target after optimization</span></div>
@@ -435,7 +456,7 @@ footer a{color:var(--navy)}
 
     <div class="block">
       <h4>Outcome</h4>
-      <p class="justify">Project approved. Three-phase roadmap: quick wins (unify dropdowns, remove redundant fields), consolidation (automated forms, DRE measurement), and maturity (technical sync with development).</p>
+      <p class="justify">Project approved. Three-phase roadmap: quick wins (unify dropdowns, remove redundant fields), consolidation (automated forms, DRE measurement), and maturity (technical systems that scale beyond a single team). The intended result is to move the QA operation from administrative overload to sustained high-value testing.</p>
       <figure class="feature-shot" style="max-width:420px">
         <img src="images/k-dre-funnel.jpg" alt="KPI evolution: from individual volume to systemic defect containment (DRE)">
         <figcaption class="caption" style="padding:10px 14px">Business goal: shift from counting reports to measuring Defect Removal Efficiency (DRE)</figcaption>
@@ -461,9 +482,11 @@ footer a{color:var(--navy)}
 function toggleTheme(){
   const root=document.documentElement;
   const btn=document.getElementById('themeBtn');
+  const floatingBtn=document.getElementById('themeFloatingBtn');
   const isDark=root.getAttribute('data-theme')==='dark';
   root.setAttribute('data-theme', isDark?'light':'dark');
-  btn.setAttribute('aria-pressed', isDark?'false':'true');
+  if(btn) btn.setAttribute('aria-pressed', isDark?'false':'true');
+  if(floatingBtn) floatingBtn.setAttribute('aria-pressed', isDark?'false':'true');
 }
 if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
   const io = new IntersectionObserver((entries)=>{
