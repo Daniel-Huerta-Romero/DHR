@@ -36,7 +36,7 @@ img{max-width:100%; display:block; border-radius:4px}
 /* readable justified body copy */
 p.justify{text-align:justify; -webkit-hyphens:auto; hyphens:auto}
 
-a:focus-visible, button:focus-visible, .theme-toggle:focus-visible, .theme-toggle-floating:focus-visible{
+a:focus-visible, button:focus-visible, .theme-toggle:focus-visible{
   outline:2px solid var(--orange); outline-offset:3px; border-radius:2px;
 }
 .skip-link{
@@ -68,24 +68,11 @@ header{
   flex-shrink:0; width:46px; height:26px; border-radius:14px; border:1px solid var(--line);
   background:var(--offblue); position:relative; cursor:pointer; padding:0;
 }
-.theme-toggle .knob,
-.theme-toggle-floating .knob{
+.theme-toggle .knob{
   position:absolute; top:2px; left:2px; width:20px; height:20px; border-radius:50%;
   background:var(--navy); transition:transform .18s ease, background .18s ease;
 }
-[data-theme="dark"] .theme-toggle .knob,
-[data-theme="dark"] .theme-toggle-floating .knob{ transform:translateX(20px); background:var(--orange); }
-
-.theme-toggle-floating{
-  position:fixed; right:20px; bottom:20px; z-index:40;
-  width:52px; height:52px; border:1px solid var(--line); border-radius:50%;
-  background:var(--offblue); cursor:pointer; padding:0; display:none;
-  box-shadow:0 8px 22px rgba(20,30,40,0.12);
-}
-.theme-toggle-floating .knob{
-  top:16px; left:16px;
-}
-[data-theme="dark"] .theme-toggle-floating .knob{ transform:translateX(20px); }
+[data-theme="dark"] .theme-toggle .knob{ transform:translateX(20px); background:var(--orange); }
 
 section{padding:64px 0}
 .hero{padding-top:56px; padding-bottom:16px}
@@ -194,6 +181,7 @@ h1.headline{font-size:2.4rem; line-height:1.22}
 footer{padding:56px 0 40px; border-top:1px solid var(--line); font-size:0.9rem; color:var(--muted)}
 footer a{color:var(--navy)}
 :root:not([data-theme="light"]) footer a{color:var(--babyblue)}
+.footer-row{display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap}
 
 .reveal{opacity:0; transform:translateY(14px); transition:opacity .5s ease, transform .5s ease}
 .reveal.in-view{opacity:1; transform:translateY(0)}
@@ -209,13 +197,24 @@ footer a{color:var(--navy)}
   .navlinks{gap:12px; font-size:0.78rem}
   .brand{font-size:0.94rem}
   .theme-toggle{display:none}
-  .theme-toggle-floating{display:block}
+  .footer-theme-toggle{display:inline-block}
+  .footer-row{align-items:center}
 }
 
 @media(max-width:600px){
   h1.headline{font-size:1.85rem}
   p.justify{text-align:left}
 }
+
+.footer-theme-toggle{
+  display:none; width:46px; height:26px; border-radius:14px; border:1px solid var(--line);
+  background:var(--offblue); position:relative; cursor:pointer; padding:0; margin-left:auto;
+}
+.footer-theme-toggle .knob{
+  position:absolute; top:2px; left:2px; width:20px; height:20px; border-radius:50%;
+  background:var(--navy); transition:transform .18s ease, background .18s ease;
+}
+[data-theme="dark"] .footer-theme-toggle .knob{ transform:translateX(20px); background:var(--orange); }
 </style>
 </head>
 <body>
@@ -234,8 +233,6 @@ footer a{color:var(--navy)}
     <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode" aria-pressed="false"><span class="knob"></span></button>
   </div>
 </header>
-
-<button class="theme-toggle-floating" id="themeFloatingBtn" onclick="toggleTheme()" aria-label="Toggle dark mode" aria-pressed="false"><span class="knob"></span></button>
 
 <main id="main">
 <div class="wrap">
@@ -468,13 +465,18 @@ footer a{color:var(--navy)}
 
 <footer>
   <div class="wrap" id="contact">
-    <p><b>Daniel Huerta Romero</b> — UX/UI Analyst, Mexico City</p>
-    <p style="margin-top:8px">
-      <a href="mailto:dann1057@gmail.com">dann1057@gmail.com</a> ·
-      <a href="https://www.linkedin.com/in/daniel-huerta-7a797333/" target="_blank">LinkedIn</a> ·
-      <a href="https://www.figma.com/design/qyCEz1cg4FXCfAMYsRTX1j/DHR-Sistema" target="_blank">Figma</a> ·
-      <a href="Daniel-Huerta-CV.pdf" download="Daniel-Huerta-CV.pdf">Download CV</a>
-    </p>
+    <div class="footer-row">
+      <div>
+        <p><b>Daniel Huerta Romero</b> — UX/UI Analyst, Mexico City</p>
+        <p style="margin-top:8px">
+          <a href="mailto:dann1057@gmail.com">dann1057@gmail.com</a> ·
+          <a href="https://www.linkedin.com/in/daniel-huerta-7a797333/" target="_blank">LinkedIn</a> ·
+          <a href="https://www.figma.com/design/qyCEz1cg4FXCfAMYsRTX1j/DHR-Sistema" target="_blank">Figma</a> ·
+          <a href="Daniel-Huerta-CV.pdf" download="Daniel-Huerta-CV.pdf">Download CV</a>
+        </p>
+      </div>
+      <button class="footer-theme-toggle" id="themeFooterBtn" onclick="toggleTheme()" aria-label="Toggle dark mode" aria-pressed="false"><span class="knob"></span></button>
+    </div>
   </div>
 </footer>
 
@@ -482,11 +484,11 @@ footer a{color:var(--navy)}
 function toggleTheme(){
   const root=document.documentElement;
   const btn=document.getElementById('themeBtn');
-  const floatingBtn=document.getElementById('themeFloatingBtn');
+  const footerBtn=document.getElementById('themeFooterBtn');
   const isDark=root.getAttribute('data-theme')==='dark';
   root.setAttribute('data-theme', isDark?'light':'dark');
   if(btn) btn.setAttribute('aria-pressed', isDark?'false':'true');
-  if(floatingBtn) floatingBtn.setAttribute('aria-pressed', isDark?'false':'true');
+  if(footerBtn) footerBtn.setAttribute('aria-pressed', isDark?'false':'true');
 }
 if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
   const io = new IntersectionObserver((entries)=>{
