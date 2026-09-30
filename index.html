@@ -125,7 +125,7 @@ h1.headline{font-size:2.4rem; line-height:1.22}
 @media(max-width:720px){ .hero-grid{grid-template-columns:1fr} }
 
 .chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:20px}
-.chip{border:1px solid var(--line); border-radius:20px; padding:6px 14px; font-size:0.82rem; color:var(--muted); transition:border-color .15s ease, color .15s ease, background .15s ease; background:transparent}
+.chip{border:1px solid var(--line); border-radius:20px; padding:6px 14px; font-size:0.82rem; color:var(--muted); transition:border-color .15s ease, color .15s ease, background .15s ease; background:rgba(255,255,255,0.2)}
 .chip:hover{border-color:var(--orange); color:var(--ink); background:rgba(250,152,25,0.05)}
 
 .divider{border:none; border-top:1px solid var(--line)}
@@ -259,7 +259,7 @@ footer a:hover{color:var(--orange)}
         <div class="avatar-row"><img src="images/avatar.jpg" alt="Photo of Daniel Huerta"><span>Daniel Huerta Romero</span></div>
         <div class="eyebrow">UX Research · Heuristic Evaluation</div>
         <h1 class="headline">I design grounded in research… because assumptions are expensive.</h1>
-        <p class="lede">UX/UI Analyst with applied experience in usability research, heuristic evaluation and reducing operational friction — with published academic work on human-AI interaction and design systems.</p>
+        <p class="lede">UX/UI Analyst with applied experience in usability research, heuristic evaluation and reducing operational friction — with published academic work on human-AI interaction and a track record of turning insight into product decisions.</p>
         <div class="cta-row">
           <a class="btn-primary" href="#work">See my work →</a>
         </div>
@@ -267,7 +267,7 @@ footer a:hover{color:var(--orange)}
           <a href="mailto:dann1057@gmail.com">Email</a>
           <a href="https://www.linkedin.com/in/daniel-huerta-7a797333/" target="_blank">LinkedIn</a>
           <a href="https://www.figma.com/design/qyCEz1cg4FXCfAMYsRTX1j/DHR-Sistema" target="_blank">Figma</a>
-          <a href="Daniel-Huerta-CV.pdf" download="Daniel-Huerta-CV.pdf">Download CV ↓</a>
+          <a href="images/Daniel_Huerta_Banamex_UXUI.pdf" download="Daniel-Huerta-CV.pdf">Download CV ↓</a>
         </div>
       </div>
       <div class="signal-panel">
@@ -286,7 +286,7 @@ footer a:hover{color:var(--orange)}
   <section id="about" class="reveal">
     <h2>About</h2>
     <p class="justify" style="margin-top:16px; color:var(--muted); max-width:60ch">
-      I work at the intersection of research and design: adapting usability heuristics, running qualitative studies, and translating findings into concrete product decisions. My research on human-AI interaction and operational friction has informed how I approach product diagnosis, wireframing, and validation.
+      I work at the intersection of research and design: adapting usability heuristics, running qualitative studies, and translating findings into concrete product decisions. My research on human-AI interaction and operational friction has informed both academic and product work.
     </p>
     <div class="chips">
       <span class="chip">Heuristic Evaluation (Nielsen)</span>
@@ -371,12 +371,12 @@ footer a:hover{color:var(--orange)}
 
     <div class="block">
       <h4>Context</h4>
-      <p class="justify">x-Plica is a human-AI workflow (Grok 3 + NotebookLM) designed to help people critically analyze viral content on platform X, without handing the final judgment to the AI. The research focused on where the workflow helped or hindered critical reading.</p>
+      <p class="justify">x-Plica is a human-AI workflow (Grok 3 + NotebookLM) designed to help people critically analyze viral content on platform X, without handing the final judgment to the AI. The goal was to explore how humans and AI could collaborate without creating overconfidence or blind trust.</p>
     </div>
 
     <div class="block">
       <h4>My role and method</h4>
-      <p class="justify">I designed and ran the full study: recruitment, task design, observation protocol, and qualitative analysis. I adapted 4 of Nielsen's heuristics to the human-AI context, plus a critical agency lens, to evaluate where cognitive load and trust broke down.</p>
+      <p class="justify">I designed and ran the full study: recruitment, task design, observation protocol, and qualitative analysis. I adapted four of Nielsen's heuristics to the human-AI context, plus a set of workflow-specific checks for trust calibration and decision quality.</p>
     </div>
 
     <div class="block">
@@ -400,7 +400,7 @@ footer a:hover{color:var(--orange)}
           <figcaption>Component diagnostic — visual synthesis outperformed numerical abstraction</figcaption>
         </figure>
       </div>
-      <p class="justify" style="margin-top:16px">The central finding: two types of friction with opposite effects. <b>Operational friction</b> (switching platforms) pushed out more than half the participants. <b>Deliberate cognitive friction</b> (timed reflection prompts) preserved agency and improved critical inquiry when used intentionally.</p>
+      <p class="justify" style="margin-top:16px">The central finding: two types of friction with opposite effects. <b>Operational friction</b> (switching platforms) pushed out more than half the participants. <b>Deliberate cognitive friction</b> (slowing down to think critically) improved the quality of the analysis when it was designed intentionally rather than imposed as a burden.</p>
     </div>
 
     <div class="block">
@@ -433,7 +433,7 @@ footer a:hover{color:var(--orange)}
 
     <div class="block">
       <h4>The problem</h4>
-      <p class="justify">The QA team was operating in unnecessary hard mode: 35–40% of their time went into administrative tasks (spreadsheets, copy-paste, inconsistent formats) instead of real gameplay testing. The friction was not in the testing itself, but in the overhead around creating, classifying, and tracking defects.</p>
+      <p class="justify">The QA team was operating in unnecessary hard mode: 35–40% of their time went into administrative tasks (spreadsheets, copy-paste, inconsistent formats) instead of real game testing and investigation. The diagnosis was framed as an operational efficiency problem and a usability problem simultaneously.</p>
       <div class="stat-row">
         <div class="stat"><b>35–40%</b><span>time spent on admin tasks (current state)</span></div>
         <div class="stat"><b>15%</b><span>admin-time target after optimization</span></div>
@@ -469,7 +469,7 @@ footer a:hover{color:var(--orange)}
 
     <div class="block">
       <h4>Outcome</h4>
-      <p class="justify">Project approved. Three-phase roadmap: quick wins (unify dropdowns, remove redundant fields), consolidation (automated forms, DRE measurement), and maturity (technical systems that scale beyond a single team). The intended result is to move the QA operation from administrative overload to sustained high-value testing.</p>
+      <p class="justify">Project approved. Three-phase roadmap: quick wins (unify dropdowns, remove redundant fields), consolidation (automated forms, DRE measurement), and maturity (technical systems for long-term quality). The proposal was accepted because it addressed both operational burden and actual testing quality.</p>
       <figure class="feature-shot" style="max-width:420px">
         <img src="images/k-dre-funnel.jpg" alt="KPI evolution: from individual volume to systemic defect containment (DRE)">
         <figcaption class="caption" style="padding:10px 14px">Business goal: shift from counting reports to measuring Defect Removal Efficiency (DRE)</figcaption>
@@ -488,7 +488,7 @@ footer a:hover{color:var(--orange)}
           <a href="mailto:dann1057@gmail.com">dann1057@gmail.com</a> · 
           <a href="https://www.linkedin.com/in/daniel-huerta-7a797333/" target="_blank">LinkedIn</a> · 
           <a href="https://www.figma.com/design/qyCEz1cg4FXCfAMYsRTX1j/DHR-Sistema" target="_blank">Figma</a> · 
-          <a href="Daniel-Huerta-CV.pdf" download="Daniel-Huerta-CV.pdf">Download CV</a>
+          <a href="images/Daniel_Huerta_Banamex_UXUI.pdf" download="Daniel-Huerta-CV.pdf">Download CV</a>
         </p>
       </div>
     </div>
